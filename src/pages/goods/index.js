@@ -8,6 +8,7 @@ const namespace = "goods";
     return (
         {
             data: state[namespace].data,
+            status: state[namespace].code,
         }
     )
 }, disp => {
@@ -17,10 +18,13 @@ const namespace = "goods";
                 type: namespace + "/queryGoodsInfoList",
             })
         },
-        updateGoodsInfo: (data) => {
+        updateGoodsInfo: (goods, callback) => {
             disp({
                 type: namespace + "/updateGoodsInfo",
-                payLoad:data,
+                payLoad: {
+                    goods: goods,
+                    callback: callback,
+                }
             })
         }
     }
@@ -28,7 +32,7 @@ const namespace = "goods";
 export default class Goods extends React.Component {
 
     constructor() {
-        
+
         super();
         this.state = {
             box: {
@@ -87,9 +91,9 @@ export default class Goods extends React.Component {
                     (
                         <span>
                             {/* 切记 static里面不能使用this */}
-                            <a onClick={this.updata.bind(this, record)}>更新</a>
+                            <a onClick={this.updata.bind(this, text)}>更新</a>
                             <Divider type="vertical" />
-                            <a onClick={this.deleteGoods.bind(this, record)}>删除</a>
+                            <a onClick={this.deleteGoods.bind(this, text)}>删除</a>
                         </span>
                     )
                 ,
@@ -97,17 +101,16 @@ export default class Goods extends React.Component {
         ];
     };
     handleChange = (attr, event) => {
-        console.log(attr)
-        console.log(event.target.value)
         let goods = this.state.goods;
-        goods[attr]=event.target.value;
+        goods[attr] = event.target.value;
         this.setState({
             ...this.state,
             goods: goods,
-        });         
+        });
     }
     updata = (text) => {
-        console.log("更新了")
+        let json = JSON.stringify(text);
+        let goods = JSON.parse(json);
         this.setState({
             ...this.state,
             box: {
@@ -116,13 +119,12 @@ export default class Goods extends React.Component {
                 handleOk: this.handleOk,
                 handleCancel: this.handleCancel,
             },
-            goods: text,
-        });           
+            goods: goods,
+        });
     };
     handleOk = () => {
         // 更新后端数据
-        this.props.updateGoodsInfo(this.state.goods);
-        this.props.queryGoodsInfoList();
+        let ret = this.props.updateGoodsInfo(this.state.goods, this.props.queryGoodsInfoList);
         this.setState({
             ...this.state,
             box: {
@@ -132,7 +134,7 @@ export default class Goods extends React.Component {
                 handleCancel: () => { },
             }
         });
-        
+
     };
     handleCancel = () => {
         this.setState({
@@ -177,31 +179,31 @@ export default class Goods extends React.Component {
                 < Row gutter={[16, 16]} >
                     <Col span={8}>次数</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")}/>
+                        <Input type="text" value={goods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col span={8}>有效期</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsExpreDate} onChange={this.handleChange.bind(this, "goodsExpreDate")}/>
+                        <Input type="text" value={goods.goodsExpreDate} onChange={this.handleChange.bind(this, "goodsExpreDate")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col span={8}>使用范围</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")}/>
+                        <Input type="text" value={goods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col span={8}>套餐价格</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")}/>
+                        <Input type="text" value={goods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col span={8}>折后价</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")}/>
+                        <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
                     </Col>
                 </Row >
             </div>
@@ -209,12 +211,12 @@ export default class Goods extends React.Component {
         return (
             <div>
                 <CustomTable columns={this.columns} data={this.props.data} />
-                <DialogBox property={this.state.box} content = {content}></DialogBox>
+                <DialogBox property={this.state.box} content={content}></DialogBox>
             </div>
         )
     };
-    componentWillUpdate = (nextProps, nextState)  => {
-      
+    componentWillUpdate = (nextProps, nextState) => {
+
     }
 
 }

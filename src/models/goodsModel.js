@@ -2,7 +2,8 @@ import goodsService from '../service/goodsService'
 export default {
     namespace: "goods",
     state: {
-        data: []
+        data: [],
+        code:"",
     },
     // 用于更新数据
     reducers: {
@@ -17,12 +18,21 @@ export default {
                     data: ret,
                 }
             )
+        },
+        GoodsInfo(state, { data }) {     
+            console.log("传值success");  
+            return (
+                {
+                    code: data,
+                }
+            )
         }
     },
     // 用于异步请求数据
     effects: {
         *queryGoodsInfoList({ payLoad }, { call, put }) {
             const result = yield call(goodsService.queryGoodsInfoList, payLoad);
+            console.log("B后端执行成功了");
             if (result && result.code == 200) {
                 yield put({
                     type: "goodsInfoList",
@@ -31,10 +41,14 @@ export default {
             }
         },
         *updateGoodsInfo({ payLoad }, { call, put }) {
-            const result = yield call(goodsService.updateGoodsInfo, payLoad);
+            const result = yield call(goodsService.updateGoodsInfo, payLoad.goods);
+            console.log("payLoad", payLoad);
             if (result && result.code == 200) {
+                console.log("A后端执行成功了");
+                console.log("payLoad", payLoad.callback);
+                payLoad.callback();
                 yield put({
-                    type: "goodsInfoList",
+                    type: "GoodsInfo",
                     data:result.data,                
                 })
             }
