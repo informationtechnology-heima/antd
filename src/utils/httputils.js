@@ -2,7 +2,7 @@
 // 请求后端工具类
 class HttpUtils {
 
-    static ContentType = "application/utf-8";
+    static ContentType = "application/json;charset=UTF-8";
     static headers = {
         "Content-Type": HttpUtils.ContentType
     }
@@ -19,6 +19,16 @@ class HttpUtils {
     post = (path, data) => {
         return fetch(path, {
             method: "POST",
+            headers: HttpUtils.headers,
+            body:JSON.stringify(data)
+        })
+            .then(resp => {
+                return resp.json();
+            })
+    };
+    put = (path, data) => {
+        return fetch(path, {
+            method: "PUT",
             headers: HttpUtils.headers,
             body:JSON.stringify(data)
         })

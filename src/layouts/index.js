@@ -1,7 +1,9 @@
 import React from 'react'
 import { Layout, Menu, Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
+import logo from '../assets/logo.png'
 import Link from 'umi/link';
+import './index.css'
 export default class ContainMain extends React.Component {
 
 
@@ -22,7 +24,14 @@ export default class ContainMain extends React.Component {
                         console.log(collapsed, type);
                     }}
                 >
-                    <div className="logo" />
+                    <div className="logo" >
+                        <img src={logo} style={
+                            {
+                            height:"100%",
+                            width:"100%",
+                            }
+                        }></img>
+                    </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
                         <Menu.Item key="1">
                             <Icon type="user" />
@@ -51,7 +60,9 @@ export default class ContainMain extends React.Component {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <Header style={{ background: '#fff', padding: 0 }} />
+                    <Header style={{ background: '#fff', padding: 0 }} >
+                        <h2>西安 <b>安居在家</b> 家政有限公司</h2>
+                    </Header>
                     <Content>
                         {this.props.children}
                     </Content>

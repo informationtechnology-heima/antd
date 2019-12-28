@@ -16,6 +16,12 @@ const namespace = "goods";
             disp({
                 type: namespace + "/queryGoodsInfoList",
             })
+        },
+        updateGoodsInfo: (data) => {
+            disp({
+                type: namespace + "/updateGoodsInfo",
+                payLoad:data,
+            })
         }
     }
 })
@@ -101,6 +107,7 @@ export default class Goods extends React.Component {
         });         
     }
     updata = (text) => {
+        console.log("更新了")
         this.setState({
             ...this.state,
             box: {
@@ -113,6 +120,9 @@ export default class Goods extends React.Component {
         });           
     };
     handleOk = () => {
+        // 更新后端数据
+        this.props.updateGoodsInfo(this.state.goods);
+        this.props.queryGoodsInfoList();
         this.setState({
             ...this.state,
             box: {
@@ -122,6 +132,7 @@ export default class Goods extends React.Component {
                 handleCancel: () => { },
             }
         });
+        
     };
     handleCancel = () => {
         this.setState({
@@ -203,8 +214,7 @@ export default class Goods extends React.Component {
         )
     };
     componentWillUpdate = (nextProps, nextState)  => {
-        console.log("变化前",nextProps);
-        console.log("变化后",nextState);
+      
     }
 
 }

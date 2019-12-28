@@ -29,6 +29,15 @@ export default {
                     data:result.data,                
                 })
             }
+        },
+        *updateGoodsInfo({ payLoad }, { call, put }) {
+            const result = yield call(goodsService.updateGoodsInfo, payLoad);
+            if (result && result.code == 200) {
+                yield put({
+                    type: "goodsInfoList",
+                    data:result.data,                
+                })
+            }
         }
     }
 }
