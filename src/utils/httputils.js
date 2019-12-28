@@ -1,0 +1,32 @@
+
+// 请求后端工具类
+class HttpUtils {
+
+    static ContentType = "application/utf-8";
+    static headers = {
+        "Content-Type": HttpUtils.ContentType
+    }
+    get = (path) => {
+        return fetch(path, {
+            method: "GET",
+            headers: HttpUtils.headers
+        })
+            .then(resp => {
+                return resp.json();
+            })
+    };
+
+    post = (path, data) => {
+        return fetch(path, {
+            method: "POST",
+            headers: HttpUtils.headers,
+            body:JSON.stringify(data)
+        })
+            .then(resp => {
+                return resp.json();
+            })
+    };
+}
+
+const httpUtils = new HttpUtils();
+export default httpUtils;
