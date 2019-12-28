@@ -28,6 +28,11 @@ const routes = [
         component: require('../goods/index.js').default,
       },
       {
+        path: '/',
+        exact: true,
+        component: require('../index.js').default,
+      },
+      {
         path: '/order',
         exact: true,
         component: require('../order/index.js').default,

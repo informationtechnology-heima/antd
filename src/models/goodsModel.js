@@ -7,10 +7,14 @@ export default {
     // 用于更新数据
     reducers: {
         goodsInfoList(state, { data }) {
-            console.log("data", data);
+            let ret = []
+            for(let i = 0; i < data.length; i++){
+                data[i]["key"] =  data[i]["goodsId"];
+                ret.push(data[i])
+            }
             return (
                 {
-                    data: data,
+                    data: ret,
                 }
             )
         }
