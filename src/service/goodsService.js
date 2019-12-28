@@ -7,6 +7,9 @@ class GoodsService {
     updateGoodsInfo = (data) => {
         return httpUtils.put("/goods/updateGoodsInfo", data)
     }
+    deleteGoodsInfo = (id) => {
+        return httpUtils.delete("/goods/deleteGoodsInfo" + "/" + id)
+    }
 }
 
 const goodsService = new GoodsService();

@@ -20,7 +20,6 @@ export default {
             )
         },
         GoodsInfo(state, { data }) {     
-            console.log("传值success");  
             return (
                 {
                     code: data,
@@ -32,7 +31,6 @@ export default {
     effects: {
         *queryGoodsInfoList({ payLoad }, { call, put }) {
             const result = yield call(goodsService.queryGoodsInfoList, payLoad);
-            console.log("B后端执行成功了");
             if (result && result.code == 200) {
                 yield put({
                     type: "goodsInfoList",
@@ -42,10 +40,17 @@ export default {
         },
         *updateGoodsInfo({ payLoad }, { call, put }) {
             const result = yield call(goodsService.updateGoodsInfo, payLoad.goods);
-            console.log("payLoad", payLoad);
             if (result && result.code == 200) {
-                console.log("A后端执行成功了");
-                console.log("payLoad", payLoad.callback);
+                payLoad.callback();
+                yield put({
+                    type: "GoodsInfo",
+                    data:result.data,                
+                })
+            }
+        },
+        *deleteGoodsInfo({ payLoad }, { call, put }) {
+            const result = yield call(goodsService.deleteGoodsInfo, payLoad.data);
+            if (result && result.code == 200) {
                 payLoad.callback();
                 yield put({
                     type: "GoodsInfo",

@@ -3,6 +3,7 @@ import CustomTable from '../../component/table'
 import { connect } from 'dva'
 import { Divider, Row, Col, Input } from 'antd';
 import DialogBox from '../../component/dialogbox'
+import PopConfirm from '../../component/popconfirm'
 const namespace = "goods";
 @connect((state) => {
     return (
@@ -26,6 +27,15 @@ const namespace = "goods";
                     callback: callback,
                 }
             })
+        },
+        deleteGoodsInfo: (data, callback) => {
+            disp({
+                type: namespace + "/deleteGoodsInfo",
+                payLoad: {
+                    data: data,
+                    callback: callback,
+                }
+            })
         }
     }
 })
@@ -41,7 +51,13 @@ export default class Goods extends React.Component {
                 handleOk: () => { },
                 handleCancel: () => { },
             },
-            goods: {}
+            goods: {},
+            pop: {
+                message: "确认删除?",
+                operation: "删除",
+                confirm: this.confirm,
+                cancel: () => {},
+            }
         };
         this.columns = [
             {
@@ -93,13 +109,18 @@ export default class Goods extends React.Component {
                             {/* 切记 static里面不能使用this */}
                             <a onClick={this.updata.bind(this, text)}>更新</a>
                             <Divider type="vertical" />
-                            <a onClick={this.deleteGoods.bind(this, text)}>删除</a>
+                            <PopConfirm pop={this.state.pop} data={text.goodsId}>
+                            </PopConfirm>
+
                         </span>
                     )
                 ,
             },
         ];
     };
+    confirm = (data) => {
+        this.props.deleteGoodsInfo(data, this.props.queryGoodsInfoList)
+    }
     handleChange = (attr, event) => {
         let goods = this.state.goods;
         goods[attr] = event.target.value;
@@ -146,9 +167,6 @@ export default class Goods extends React.Component {
                 handleCancel: () => { },
             }
         });
-    };
-    deleteGoods = () => {
-        console.log("删除触发了");
     };
     createGoods = () => {
         this.setState({

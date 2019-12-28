@@ -36,6 +36,15 @@ class HttpUtils {
                 return resp.json();
             })
     };
+    delete = (path) => {
+        return fetch(path, {
+            method: "DELETE",
+            headers: HttpUtils.headers,
+        })
+            .then(resp => {
+                return resp.json();
+            })
+    };
 }
 
 const httpUtils = new HttpUtils();
