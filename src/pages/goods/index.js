@@ -161,7 +161,7 @@ export default class Goods extends React.Component {
         this.setState({
             ...this.state,
             box: {
-                name: "更新",
+                name: "编辑",
                 visible: false,
                 handleOk: () => { },
                 handleCancel: () => { },
@@ -172,7 +172,7 @@ export default class Goods extends React.Component {
         this.setState({
             ...this.state,
             box: {
-                name: "创建",
+                name: "新增",
                 visible: true,
                 handleOk: () => { },
                 handleCancel: () => { },

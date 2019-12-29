@@ -35,7 +35,7 @@ export default class ContainMain extends React.Component {
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
                         <Menu.Item key="1">
                             <Icon type="user" />
-                            <span className="nav-text">王晓妆</span>
+                            <span className="nav-text">王石帅</span>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Link to="/goods">
@@ -61,7 +61,7 @@ export default class ContainMain extends React.Component {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }} >
-                        <h2>西安 <b>安居在家</b> 家政有限公司</h2>
+                        <h2>西安 <b>安居在家</b> 家政有限公司后台管理系统</h2>
                     </Header>
                     <Content>
                         {this.props.children}
