@@ -4,7 +4,8 @@ class HttpUtils {
 
     static ContentType = "application/json;charset=UTF-8";
     static headers = {
-        "Content-Type": HttpUtils.ContentType
+        "Content-Type": HttpUtils.ContentType,
+        "Authorization":window.localStorage.getItem("Authorization"),
     }
     get = (path) => {
         return fetch(path, {

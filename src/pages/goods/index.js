@@ -9,7 +9,6 @@ const namespace = "goods";
     return (
         {
             data: state[namespace].data,
-            status: state[namespace].code,
         }
     )
 }, disp => {
@@ -56,7 +55,7 @@ export default class Goods extends React.Component {
                 message: "确认删除?",
                 operation: "删除",
                 confirm: this.confirm,
-                cancel: () => {},
+                cancel: () => { },
             }
         };
         this.columns = [

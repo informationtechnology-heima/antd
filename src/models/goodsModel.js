@@ -1,4 +1,5 @@
 import goodsService from '../service/goodsService'
+import { message} from 'antd';
 export default {
     namespace: "goods",
     state: {
@@ -41,6 +42,7 @@ export default {
         *updateGoodsInfo({ payLoad }, { call, put }) {
             const result = yield call(goodsService.updateGoodsInfo, payLoad.goods);
             if (result && result.code == 200) {
+                message.success("套餐更新成功!")
                 payLoad.callback();
                 yield put({
                     type: "GoodsInfo",
@@ -51,11 +53,14 @@ export default {
         *deleteGoodsInfo({ payLoad }, { call, put }) {
             const result = yield call(goodsService.deleteGoodsInfo, payLoad.data);
             if (result && result.code == 200) {
+                message.success("套餐删除成功!")
                 payLoad.callback();
                 yield put({
                     type: "GoodsInfo",
                     data:result.data,                
                 })
+            }else{
+                message.info("套餐更新失败啦!")
             }
         }
     }
