@@ -7,8 +7,8 @@ class GoodsService {
     updateGoodsInfo = (data) => {
         return httpUtils.put("/goods/updateGoodsInfo", data)
     }
-    deleteGoodsInfo = (id) => {
-        return httpUtils.delete("/goods/deleteGoodsInfo" + "/" + id)
+    isDelGoodsInfo = (data) => {
+        return httpUtils.delete("/goods/isDel" + "/" + data.goodsId + "/" + data.status)
     }
 }
 

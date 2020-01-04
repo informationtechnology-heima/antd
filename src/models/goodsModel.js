@@ -50,10 +50,10 @@ export default {
                 })
             }
         },
-        *deleteGoodsInfo({ payLoad }, { call, put }) {
-            const result = yield call(goodsService.deleteGoodsInfo, payLoad.data);
+        *isDelGoodsInfo({ payLoad }, { call, put }) {
+            const result = yield call(goodsService.isDelGoodsInfo, payLoad.data);
             if (result && result.code == 200) {
-                message.success("套餐删除成功!")
+                message.success("套餐更新成功!")
                 payLoad.callback();
                 yield put({
                     type: "GoodsInfo",

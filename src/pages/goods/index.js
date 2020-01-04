@@ -28,9 +28,9 @@ const namespace = "goods";
                 }
             })
         },
-        deleteGoodsInfo: (data, callback) => {
+        isDelGoodsInfo: (data, callback) => {
             disp({
-                type: namespace + "/deleteGoodsInfo",
+                type: namespace + "/isDelGoodsInfo",
                 payLoad: {
                     data: data,
                     callback: callback,
@@ -53,8 +53,8 @@ export default class Goods extends React.Component {
             },
             goods: {},
             pop: {
-                message: "确认删除?",
-                operation: "删除",
+                message: "确认启用?",
+                operation: "是否启用",
                 confirm: this.confirm,
                 cancel: () => { },
             }
@@ -96,30 +96,62 @@ export default class Goods extends React.Component {
                 key: 'goodsDiscountPrice',
             },
             {
-                title: '类型',
-                dataIndex: 'goodsType',
-                key: 'goodsType',
+                title: '是否启用',
+                dataIndex: 'goodsIsDel',
+                key: 'goodsIsDel',
+                render: (goodsIsDel) => {
+                    console.log(goodsIsDel);
+
+                    let ret = (<span>
+                        未启用
+                    </span>);
+                    if (goodsIsDel == "1") {
+                        ret = (
+                            <span>
+                                已启用
+                        </span>);
+                    }
+                    return ret;
+                }
+
+
             },
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) =>
-                    (
+                render: (text, record) => {
+                    let pop = this.state.pop;
+                    let status = 0;
+                    if(text.goodsIsDel == "1"){
+                        pop["operation"] = "不启用";
+                        pop["message"] = "确认不启用";
+                        status = "0";
+                    }else {
+                        pop["operation"] = "启用";
+                        pop["message"] = "确认启用";
+                        status = "1";
+                    }
+
+                    return (
                         <span>
                             {/* 切记 static里面不能使用this */}
                             <a onClick={this.updata.bind(this, text)}>更新</a>
                             <Divider type="vertical" />
-                            <PopConfirm pop={this.state.pop} data={text.goodsId}>
+                            <PopConfirm pop={pop} data={{
+                                goodsId:text.goodsId,
+                                status:status,
+                            }}>
                             </PopConfirm>
 
                         </span>
                     )
+                }
                 ,
             },
         ];
     };
     confirm = (data) => {
-        this.props.deleteGoodsInfo(data, this.props.queryGoodsInfoList)
+        this.props.isDelGoodsInfo(data, this.props.queryGoodsInfoList)
     }
     handleChange = (attr, event) => {
         let goods = this.state.goods;
@@ -192,19 +224,23 @@ export default class Goods extends React.Component {
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
                     } span={8}>套餐名称</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsName} onChange={this.handleChange.bind(this, "goodsName")} />
+                        <Input type="text" value={goods.goodsName} disabled={
+                            {
+                                disabled: true,
+                            }
+                        } />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
-                    }  span={8}>次数</Col>
+                    } span={8}>次数</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
                     </Col>
@@ -212,28 +248,28 @@ export default class Goods extends React.Component {
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
-                    }  span={8}>有效期</Col>
+                    } span={8}>有效期</Col>
                     <Col span={16} >
-                    <DatePicker onChange={(date, dateString) => {
-                        let goods = this.state.goods;
-                        goods["goodsExpreDate"] = dateString;
-                        this.setState({
-                            ...this.state,
-                            goods: goods,
-                        });
-                    }
-                    } defaultValue={moment(goods.goodsExpreDate)} format={dateFormat}/>
-                        
+                        <DatePicker onChange={(date, dateString) => {
+                            let goods = this.state.goods;
+                            goods["goodsExpreDate"] = dateString;
+                            this.setState({
+                                ...this.state,
+                                goods: goods,
+                            });
+                        }
+                        } defaultValue={moment(goods.goodsExpreDate)} format={dateFormat} />
+
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
-                    }  span={8}>使用范围</Col>
+                    } span={8}>使用范围</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
                     </Col>
@@ -241,9 +277,9 @@ export default class Goods extends React.Component {
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
-                    }  span={8}>套餐价格</Col>
+                    } span={8}>套餐价格</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
                     </Col>
@@ -251,9 +287,9 @@ export default class Goods extends React.Component {
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
-                            lineHeight:"32px",
+                            lineHeight: "32px",
                         }
-                    }  span={8}>折后价</Col>
+                    } span={8}>折后价</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
                     </Col>
