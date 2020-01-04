@@ -6,9 +6,9 @@ export default class BaseLayout extends React.Component {
 
     render = () => {
         // 判断是否登陆，切换页面
-        let content = window.localStorage.getItem("Authorization") ?
+        let content = false ?
             <Logged>
-                {container}
+                {this.props.children}
             </Logged> :
             <Login></Login>;
         return (

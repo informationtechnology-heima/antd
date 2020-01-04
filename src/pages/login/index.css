@@ -1,0 +1,44 @@
+.login{
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-image: url("../../assets/login.jpg");
+    background-size: 100% 100%; 
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.login .box{
+    background-color: #fff;
+    position: absolute;
+    top: 20%;
+    left: 60%;
+    height: 350px;
+    width: 360px;
+}
+.login .head{
+    height: 70px;
+}
+.login .body{
+    height: 200px;
+    padding-left: 40px;
+    padding-right: 50px;
+}
+.login .tail{
+    height: 80px;
+    text-align: center;
+}
+.login .box h3{
+    text-align: center;
+    color: #888888;
+    height: 100%;
+    line-height: 70px;
+}
+.login .tail > button{
+    color: #fff;
+    width: 200px;
+    height: 40px;
+    background-color: rgb(69, 93, 228);
+    border-radius: 20px;
+    outline: none;
+}

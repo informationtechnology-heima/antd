@@ -188,37 +188,61 @@ export default class Goods extends React.Component {
         let content = (
             <div>
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>套餐名称</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    } span={8}>套餐名称</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsName} onChange={this.handleChange.bind(this, "goodsName")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>次数</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    }  span={8}>次数</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>有效期</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    }  span={8}>有效期</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsExpreDate} onChange={this.handleChange.bind(this, "goodsExpreDate")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>使用范围</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    }  span={8}>使用范围</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>套餐价格</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    }  span={8}>套餐价格</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
-                    <Col span={8}>折后价</Col>
+                    <Col style={
+                        {
+                            lineHeight:"32px",
+                        }
+                    }  span={8}>折后价</Col>
                     <Col span={16} >
                         <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
                     </Col>

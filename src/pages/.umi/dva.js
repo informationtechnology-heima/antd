@@ -21,6 +21,7 @@ export function _onCreate() {
   });
   
   app.model({ namespace: 'goodsModel', ...(require('D:/jsStudy/reactL03/housekeeping/src/models/goodsModel.js').default) });
+app.model({ namespace: 'loginModel', ...(require('D:/jsStudy/reactL03/housekeeping/src/models/loginModel.js').default) });
   return app;
 }
 
