@@ -34,7 +34,7 @@ export default class Logged extends React.Component {
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
                         <Menu.Item key="1">
                             <Icon type="user" />
-                            <span className="nav-text">王石帅</span>
+                    <span className="nav-text">{window.sessionStorage.getItem("username")}</span>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Link to="/goods">

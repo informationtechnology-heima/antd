@@ -24,7 +24,7 @@ export default class Login extends React.Component {
             loginData: {
                 username: null,
                 password: null,
-                checkcode: null,
+                checkCode: null,
             }
         }
     }
@@ -44,7 +44,7 @@ export default class Login extends React.Component {
         }else if(!loginData.password){
             message.error("密码必填")
             return;
-        }else if(!loginData.checkcode){
+        }else if(!loginData.checkCode){
             message.error("验证码必填")
             return;
         }
@@ -58,7 +58,7 @@ export default class Login extends React.Component {
                 {/* 登录框 */}
                 <div className={styles.box}>
                     <div className={styles.head}>
-                        <h3>——系统登陆——</h3>
+                        <h3>——系统登录——</h3>
                     </div>
                     <div className={styles.body}>
                         <Row gutter={[16, 16]}>
@@ -87,7 +87,7 @@ export default class Login extends React.Component {
                                 {
                                     width: "120px"
                                 }
-                            }><Input value={this.state.loginData.checkcode} onChange={this.change.bind(this, "checkcode")}></Input></Col>
+                            }><Input value={this.state.loginData.checkCode} onChange={this.change.bind(this, "checkCode")}></Input></Col>
                         </Row>
                     </div>
                     <div className={styles.tail}>

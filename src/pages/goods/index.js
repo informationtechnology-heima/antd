@@ -1,9 +1,10 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Row, Col, Input } from 'antd';
+import { Divider, Row, Col, Input, DatePicker } from 'antd';
 import DialogBox from '../../component/dialogbox'
 import PopConfirm from '../../component/popconfirm'
+import moment from 'moment';
 const namespace = "goods";
 @connect((state) => {
     return (
@@ -185,6 +186,7 @@ export default class Goods extends React.Component {
     render = () => {
 
         let goods = this.state.goods;
+        const dateFormat = 'YYYY-MM-DD';
         let content = (
             <div>
                 < Row gutter={[16, 16]} >
@@ -214,7 +216,16 @@ export default class Goods extends React.Component {
                         }
                     }  span={8}>有效期</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsExpreDate} onChange={this.handleChange.bind(this, "goodsExpreDate")} />
+                    <DatePicker onChange={(date, dateString) => {
+                        let goods = this.state.goods;
+                        goods["goodsExpreDate"] = dateString;
+                        this.setState({
+                            ...this.state,
+                            goods: goods,
+                        });
+                    }
+                    } defaultValue={moment(goods.goodsExpreDate)} format={dateFormat}/>
+                        
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
