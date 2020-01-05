@@ -7,33 +7,44 @@ import PopConfirm from '../../component/popconfirm'
 import moment from 'moment';
 const namespace = "goods";
 @connect((state) => {
+    let page = {
+        showTotal: () => "共" + state[namespace].page.count + "条",
+        pageSize: 10,
+        total: state[namespace].page.count,
+    } 
     return (
         {
-            data: state[namespace].data,
+            data: state[namespace].page.data,
+            page: page
         }
     )
 }, disp => {
     return {
-        queryGoodsInfoList: () => {
+        queryGoodsInfoList: (page) => {
             disp({
                 type: namespace + "/queryGoodsInfoList",
+                payLoad:{
+                    page: page,
+                }
             })
         },
-        updateGoodsInfo: (goods, callback) => {
+        updateGoodsInfo: (goods, callback, page) => {
             disp({
                 type: namespace + "/updateGoodsInfo",
                 payLoad: {
                     goods: goods,
                     callback: callback,
+                    page: page,
                 }
             })
         },
-        isDelGoodsInfo: (data, callback) => {
+        isDelGoodsInfo: (data, callback, page) => {
             disp({
                 type: namespace + "/isDelGoodsInfo",
                 payLoad: {
                     data: data,
                     callback: callback,
+                    page: page,
                 }
             })
         }
@@ -57,6 +68,10 @@ export default class Goods extends React.Component {
                 operation: "是否启用",
                 confirm: this.confirm,
                 cancel: () => { },
+            },
+            page: {
+                index: 1,
+                size: 10,
             }
         };
         this.columns = [
@@ -120,11 +135,11 @@ export default class Goods extends React.Component {
                 render: (text, record) => {
                     let pop = this.state.pop;
                     let status = 0;
-                    if(text.goodsIsDel == "1"){
+                    if (text.goodsIsDel == "1") {
                         pop["operation"] = "不启用";
                         pop["message"] = "确认不启用";
                         status = "0";
-                    }else {
+                    } else {
                         pop["operation"] = "启用";
                         pop["message"] = "确认启用";
                         status = "1";
@@ -136,8 +151,8 @@ export default class Goods extends React.Component {
                             <a onClick={this.updata.bind(this, text)}>更新</a>
                             <Divider type="vertical" />
                             <PopConfirm pop={pop} data={{
-                                goodsId:text.goodsId,
-                                status:status,
+                                goodsId: text.goodsId,
+                                status: status,
                             }}>
                             </PopConfirm>
 
@@ -149,7 +164,7 @@ export default class Goods extends React.Component {
         ];
     };
     confirm = (data) => {
-        this.props.isDelGoodsInfo(data, this.props.queryGoodsInfoList)
+        this.props.isDelGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page)
     }
     handleChange = (attr, event) => {
         let goods = this.state.goods;
@@ -175,7 +190,7 @@ export default class Goods extends React.Component {
     };
     handleOk = () => {
         // 更新后端数据
-        let ret = this.props.updateGoodsInfo(this.state.goods, this.props.queryGoodsInfoList);
+        let ret = this.props.updateGoodsInfo(this.state.goods, this.props.queryGoodsInfoList, this.state.page);
         this.setState({
             ...this.state,
             box: {
@@ -211,10 +226,20 @@ export default class Goods extends React.Component {
     };
 
     componentDidMount = () => {
-        this.props.queryGoodsInfoList();
+        this.props.queryGoodsInfoList(this.state.page);
     };
+    nextPage = (current) => {
+        let page = this.state.page;
+        page["index"] = current;
+        this.props.queryServiceOrderList(this.state.page)
+        this.setState({
+            page: {
+                ...this.state.page,
+                index: current,
+            }
+        })
+    }
     render = () => {
-
         let goods = this.state.goods;
         const dateFormat = 'YYYY-MM-DD';
         let content = (
@@ -290,9 +315,12 @@ export default class Goods extends React.Component {
                 </Row >
             </div>
         )
+        let page = this.props.page;
+        page["onChange"] = this.nextPage
+        page["current"] = this.state.page.index;
         return (
             <div>
-                <CustomTable columns={this.columns} data={this.props.data} />
+                <CustomTable columns={this.columns} data={this.props.data} page={page} />
                 <DialogBox property={this.state.box} content={content}></DialogBox>
             </div>
         )

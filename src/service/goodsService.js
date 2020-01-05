@@ -1,8 +1,8 @@
 import httpUtils from '../utils/httputils'
 
 class GoodsService {
-    queryGoodsInfoList = () => {
-        return httpUtils.get("/goods/web/queryGoodsInfoList")
+    queryGoodsInfoList = (page) => {
+        return httpUtils.get("/goods/web/queryGoodsInfoList?"+ "index=" + page.index + "&size=" + page.size)
     }
     updateGoodsInfo = (data) => {
         return httpUtils.put("/goods/updateGoodsInfo", data)

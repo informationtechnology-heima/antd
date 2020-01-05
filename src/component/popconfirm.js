@@ -6,9 +6,7 @@ export default class PopConfirm extends React.Component {
         return (
             <Popconfirm
                 title={this.props.pop.message}
-                onConfirm={() => {
-                    console.log("this.props.data", this.props.data);
-                    
+                onConfirm={() => {                   
                     this.props.pop.confirm(this.props.data);
 
                 }}

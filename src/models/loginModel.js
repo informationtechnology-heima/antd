@@ -15,7 +15,7 @@ export default {
             }else{
                 message.success("登陆成功")
                 window.sessionStorage.setItem("Authorization", ret.data.ubdToken);
-                window.sessionStorage.setItem("username", ret.data.ubdPoliceName);
+                window.sessionStorage.setItem("username", ret.data.ubdPoliceName);    
                 router.push('/goods');
             }
         }

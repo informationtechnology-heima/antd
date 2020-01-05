@@ -1,16 +1,20 @@
 
-// 请求后端工具类
-class HttpUtils {
+// 实时获取认证信息
+function getHeaders(){
+    return (
+        {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Authorization":window.sessionStorage.getItem("Authorization"),
+        }
+    )
+}
 
-    static ContentType = "application/json;charset=UTF-8";
-    static headers = {
-        "Content-Type": HttpUtils.ContentType,
-        "Authorization":window.sessionStorage.getItem("Authorization"),
-    }
-    get = (path) => {
+class HttpUtils {
+    
+    get = (path) => { 
         return fetch(path, {
             method: "GET",
-            headers: HttpUtils.headers
+            headers: getHeaders(),
         })
             .then(resp => {
                 return resp.json();
@@ -20,7 +24,7 @@ class HttpUtils {
     post = (path, data) => {
         return fetch(path, {
             method: "POST",
-            headers: HttpUtils.headers,
+            headers: getHeaders(),
             body:JSON.stringify(data)
         })
             .then(resp => {
@@ -30,7 +34,7 @@ class HttpUtils {
     put = (path, data) => {
         return fetch(path, {
             method: "PUT",
-            headers: HttpUtils.headers,
+            headers: getHeaders(),
             body:JSON.stringify(data)
         })
             .then(resp => {
@@ -40,7 +44,7 @@ class HttpUtils {
     delete = (path) => {
         return fetch(path, {
             method: "DELETE",
-            headers: HttpUtils.headers,
+            headers: getHeaders(),
         })
             .then(resp => {
                 return resp.json();
