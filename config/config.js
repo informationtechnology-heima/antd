@@ -14,6 +14,10 @@ export default {
     '/user': {
       target: 'http://localhost:8080',
       changeOrigin: true
+    },
+    '/service': {
+      target: 'http://localhost:8080',
+      changeOrigin: true
     }
   }
 };

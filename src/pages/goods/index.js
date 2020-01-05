@@ -100,8 +100,6 @@ export default class Goods extends React.Component {
                 dataIndex: 'goodsIsDel',
                 key: 'goodsIsDel',
                 render: (goodsIsDel) => {
-                    console.log(goodsIsDel);
-
                     let ret = (<span>
                         未启用
                     </span>);
@@ -228,11 +226,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>套餐名称</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsName} disabled={
-                            {
-                                disabled: true,
-                            }
-                        } />
+                        <Input type="text" value={goods.goodsName} disabled={true} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >

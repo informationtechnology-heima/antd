@@ -1,5 +1,29 @@
 import React from 'react'
 import CustomTable from '../../component/table'
+import { connect } from 'dva';
+import { Divider } from 'antd';
+const namespace = "serviceOrder";
+@connect(state => {
+    console.log(state[namespace].page.data);
+
+    return {
+        data: state[namespace].page.data,
+        count: state[namespace].page.count
+    }
+}, dispcher => {
+    return {
+        queryServiceOrderList: (page) => {
+            dispcher(
+                {
+                    type: namespace + "/queryServiceOrderList",
+                    payLoad: {
+                        page: page
+                    }
+                }
+            )
+        }
+    }
+})
 export default class Order extends React.Component {
     constructor() {
         super();
@@ -15,51 +39,72 @@ export default class Order extends React.Component {
                 key: 'goodsName',
             },
             {
-                title: '订单状态',
-                dataIndex: 'orderStatus',
-                key: 'orderStatus',
+                title: '预约单状态',
+                dataIndex: 'serveStatus',
+                key: 'serveStatus',
+                render: (status) => {
+                    let ret = (<span>
+                        已确认
+                    </span>)
+                    if (status == 1000) {
+                        ret = <span>
+                            已确认
+                        </span>
+                    } else if (status == 2000) {
+                        ret= <span>
+                            已完成
+                        </span>
+                    } else if (status == 3000) {
+                        ret = <span>
+                            已取消
+                        </span>
+                    }
+                    return ret;
+                }
             },
             {
-                title: '购买人',
-                dataIndex: 'orderCreateUser',
-                key: 'orderCreateUser',
+                title: '联系人',
+                dataIndex: 'concatName',
+                key: 'concatName',
             },
             {
-                title: '购买时间',
-                dataIndex: 'orderCreateTime',
-                key: 'orderCreateTime',
+                title: '预约时间',
+                dataIndex: 'serveStartTime',
+                key: 'serveStartTime',
             },
             {
-                title: '付款金额',
-                dataIndex: 'orderAmount',
-                key: 'orderAmount',
+                title: '预约单服务地址',
+                dataIndex: 'concatAddress',
+                key: 'concatAddress',
             },
             {
-                title: '订单剩余次数',
-                dataIndex: 'orderCount',
-                key: 'orderCount',
-            },
-            {
-                title: '订单服务地址',
-                dataIndex: 'orderAddress',
-                key: 'orderAddress',
+                title: '服务员',
+                dataIndex: 'serviceUser',
+                key: 'serviceUser',
             },
             {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <a>更新</a>
+                        <a>派单</a>
                         <Divider type="vertical" />
-                        <a>删除</a>
+                        <a>已完成</a>
                     </span>
                 ),
             },
-        ]; 
+        ];
+    }
+
+    componentDidMount = () => {
+        this.props.queryServiceOrderList({
+            index: 1,
+            size: 10,
+        })
     }
     render = () => {
         return (
-            <CustomTable columns={this.columns} />
+            <CustomTable columns={this.columns} data={this.props.data} />
         )
     }
 }
