@@ -20,9 +20,9 @@ export function _onCreate() {
     app.use(plugin);
   });
   
-  app.model({ namespace: 'goodsModel', ...(require('D:/jsStudy/reactL03/housekeeping/src/models/goodsModel.js').default) });
-app.model({ namespace: 'loginModel', ...(require('D:/jsStudy/reactL03/housekeeping/src/models/loginModel.js').default) });
-app.model({ namespace: 'serviceOrderModel', ...(require('D:/jsStudy/reactL03/housekeeping/src/models/serviceOrderModel.js').default) });
+  app.model({ namespace: 'goodsModel', ...(require('D:/jsStudy/reactL04/antd/src/models/goodsModel.js').default) });
+app.model({ namespace: 'loginModel', ...(require('D:/jsStudy/reactL04/antd/src/models/loginModel.js').default) });
+app.model({ namespace: 'serviceOrderModel', ...(require('D:/jsStudy/reactL04/antd/src/models/serviceOrderModel.js').default) });
   return app;
 }
 

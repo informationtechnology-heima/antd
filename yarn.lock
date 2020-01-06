@@ -1883,7 +1883,7 @@ antd-mobile@2.x:
     rmc-tabs "~1.2.0"
     rmc-tooltip "~1.0.0"
 
-antd@3.x, antd@^3.26.4:
+antd@3.x:
   version "3.26.4"
   resolved "https://registry.yarnpkg.com/antd/-/antd-3.26.4.tgz#7caef11896eb9b1ec2b1d8c41c92f7c60ef8e52b"
   integrity sha512-3kv0jpOPw/HzIGUAQO9wpoF0KZiGJa/jz5KC2ICkjaU1p9mlpq/ZkbW7cFY5P/iWrMvaa1rFYjcU6To4ietNKw==
@@ -9780,13 +9780,6 @@ react-app-polyfill@^1.0.5:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
-react-app-rewired@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/react-app-rewired/-/react-app-rewired-2.1.5.tgz#592ec2eae5c3c5cd96c80930b5dc3f6c34da1dc6"
-  integrity sha512-Gr8KfCeL9/PTQs8Vvxc7v8wQ9vCFMnYPhcAkrMlzkLiMFXS+BgSwm11MoERjZm7dpA2WjTi+Pvbu/w7rujAV+A==
-  dependencies:
-    semver "^5.6.0"
-
 react-dev-utils@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.0.0.tgz#bd2d16426c7e4cbfed1b46fb9e2ac98ec06fcdfa"
@@ -11807,10 +11800,10 @@ umi-plugin-hd@1.7.0-beta.2:
     postcss-plugin-px2rem "0.8.1"
     umi-hd "5.0.1"
 
-umi-plugin-locale@2.11.3:
-  version "2.11.3"
-  resolved "https://registry.yarnpkg.com/umi-plugin-locale/-/umi-plugin-locale-2.11.3.tgz#b2c3a991bc28b235eb2adf357c038cf20b3b381c"
-  integrity sha512-LsC+VaPxMXyNwSl0UtNnWMGVrzOXMQSoe9x0AfA3LyVqMJtwC3MBT+1VKqNlsWUTk/3x1scsBivwjF6BhgsyKA==
+umi-plugin-locale@2.11.4:
+  version "2.11.4"
+  resolved "https://registry.npm.taobao.org/umi-plugin-locale/download/umi-plugin-locale-2.11.4.tgz?cache=0&sync_timestamp=1577772358341&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fumi-plugin-locale%2Fdownload%2Fumi-plugin-locale-2.11.4.tgz#5fb04c9e204c76346e2f9cc7b0356f5ac25fc2e6"
+  integrity sha1-X7BMniBMdjRuL5zHsDVvWsJfwuY=
   dependencies:
     "@ant-design/create-react-context" "0.2.4"
     globby "7.1.1"
@@ -11833,10 +11826,10 @@ umi-plugin-polyfills@1.4.2:
     umi-utils "1.4.2"
     url-polyfill "1.1.3"
 
-umi-plugin-react@^1.14.10:
-  version "1.14.10"
-  resolved "https://registry.yarnpkg.com/umi-plugin-react/-/umi-plugin-react-1.14.10.tgz#f555ac8ab96dbfccf025b1cc4bd2eb83eb5ca06f"
-  integrity sha512-M+gELGVW6wKSdI6jWRgfi7vQTtMRS9JtFqQEAgNtaXjVdb3je5SH0aM3/1F4xiJ/xUi+Hrt80KkVQMRZXwGrFA==
+umi-plugin-react@^1.14.12:
+  version "1.14.12"
+  resolved "https://registry.npm.taobao.org/umi-plugin-react/download/umi-plugin-react-1.14.12.tgz#33b2b6743599e4347aa9c981d905c136fd086963"
+  integrity sha1-M7K2dDWZ5DR6qcmB2QXBNv0IaWM=
   dependencies:
     antd "3.x"
     antd-mobile "2.x"
@@ -11850,23 +11843,23 @@ umi-plugin-react@^1.14.10:
     umi-plugin-dll "1.6.0"
     umi-plugin-dva "1.11.0"
     umi-plugin-hd "1.7.0-beta.2"
-    umi-plugin-locale "2.11.3"
+    umi-plugin-locale "2.11.4"
     umi-plugin-polyfills "1.4.2"
-    umi-plugin-routes "1.8.4"
-    umi-plugin-ui "1.4.10"
+    umi-plugin-routes "1.8.6"
+    umi-plugin-ui "1.4.12"
     umi-utils "1.7.2"
     webpack "4.41.1"
     workbox-webpack-plugin "3.6.3"
 
-umi-plugin-routes@1.8.4:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/umi-plugin-routes/-/umi-plugin-routes-1.8.4.tgz#349cf2f0c5f4b59b8096a3fef6b0337c06d430c0"
-  integrity sha512-U1YPjPOFhQaNvJfxwWUERxH/KkCb4M5nDy8/9bFrmyBmR11B2ThXxFEF40liyH7VrTybh2khIEzLF23UhglY3Q==
+umi-plugin-routes@1.8.6:
+  version "1.8.6"
+  resolved "https://registry.npm.taobao.org/umi-plugin-routes/download/umi-plugin-routes-1.8.6.tgz#e90cb2d311c1352680856e9b62be2839aacdcac1"
+  integrity sha1-6Qyy0xHBNSaAhW6bYr4oOarNysE=
 
-umi-plugin-ui@1.4.10:
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/umi-plugin-ui/-/umi-plugin-ui-1.4.10.tgz#b7ae2f7142106fc9a0af627c77ad0bdcfc40457d"
-  integrity sha512-Vl/LgM2auEae+YjQ5aPBGwksKpNqazEOcroo89ALhrYHEa7EEbGAPS6WCnxD7TKO58+2KnhedibCEbWauIKUGw==
+umi-plugin-ui@1.4.12:
+  version "1.4.12"
+  resolved "https://registry.npm.taobao.org/umi-plugin-ui/download/umi-plugin-ui-1.4.12.tgz?cache=0&sync_timestamp=1578036406642&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fumi-plugin-ui%2Fdownload%2Fumi-plugin-ui-1.4.12.tgz#7331f968234f0ad024afaffd2942955a725b6ece"
+  integrity sha1-czH5aCNPCtAkr6/9KUKVWnJbbs4=
   dependencies:
     got "9.6.0"
     immer "^5.0.0"
@@ -11874,12 +11867,12 @@ umi-plugin-ui@1.4.10:
     mkdirp "^0.5.1"
     sockjs-client "1.3.0"
     styled-components "^4.4.0"
-    umi-ui-tasks "1.3.7"
+    umi-ui-tasks "1.3.9"
 
-umi-ui-tasks@1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/umi-ui-tasks/-/umi-ui-tasks-1.3.7.tgz#390123f769f919fcd0850d9d3dbad9afd4c4df3e"
-  integrity sha512-EUjMqkk4e81d8KY5YY2K1kGKPhwiV3qznvq/nNSQJPdhLu8/0tZfRh5hZzCfeMnRv+nqmxSrkkc40nMXSf2TVQ==
+umi-ui-tasks@1.3.9:
+  version "1.3.9"
+  resolved "https://registry.npm.taobao.org/umi-ui-tasks/download/umi-ui-tasks-1.3.9.tgz?cache=0&sync_timestamp=1578036411879&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fumi-ui-tasks%2Fdownload%2Fumi-ui-tasks-1.3.9.tgz#6c7accb35359052db5d788ea01d84c0a2de07672"
+  integrity sha1-bHrMs1NZBS2114jqAdhMCi3gdnI=
   dependencies:
     binary-mirror-config "1.20.3"
     cross-spawn "^6.0.5"
