@@ -2,6 +2,8 @@ import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva';
 import PopConfirm from '../../component/popconfirm'
+import {Tag} from 'antd';
+import { green } from 'color-name';
 const namespace = "serviceOrder";
 @connect(state => {
     let page = {
@@ -61,15 +63,21 @@ export default class Order extends React.Component {
                     </span>)
                     if (status == 1000) {
                         ret = <span>
-                            已确认
+                            <Tag color={"volcano"} key={"待服务"}>
+                                待服务
+                            </Tag>
                         </span>
                     } else if (status == 2000) {
                         ret = <span>
+                            <Tag color={"green"} key={"已完成"}>
                             已完成
+                            </Tag>
                         </span>
                     } else if (status == 3000) {
                         ret = <span>
+                            <Tag color={"geekblue"} key={"已取消"}>
                             已取消
+                            </Tag>
                         </span>
                     }
                     return ret;
