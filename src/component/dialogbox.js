@@ -8,7 +8,7 @@ export default class DialogBox extends React.Component {
         }
     }
     render = () => {
-        let box = this.props.property;
+        let box = this.props.box;
         return (
             <div>
                 <Modal

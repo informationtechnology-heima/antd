@@ -321,7 +321,7 @@ export default class Goods extends React.Component {
         return (
             <div>
                 <CustomTable columns={this.columns} data={this.props.data} page={page} />
-                <DialogBox property={this.state.box} content={content}></DialogBox>
+                <DialogBox box={this.state.box} content={content}></DialogBox>
             </div>
         )
     };
