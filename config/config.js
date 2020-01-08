@@ -18,6 +18,10 @@ export default {
     '/service': {
       target: 'http://localhost:8080',
       changeOrigin: true
+    },
+    '/order': {
+      target: 'http://localhost:8080',
+      changeOrigin: true
     }
   }
 };

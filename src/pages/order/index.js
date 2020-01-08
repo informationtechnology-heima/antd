@@ -44,6 +44,15 @@ const employee = "employee";
             dispcher({
                 type: employee + "/queryUserList",
             })
+        },
+        allot: (allotParam, callback) => {
+            dispcher({
+                type:namespace + "/allot",
+                payLoad:{
+                    allotParam:allotParam,
+                    callback:callback,
+                }
+            })
         }
     }
 })
@@ -115,11 +124,13 @@ export default class Order extends React.Component {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => {
+                    let a = text.serviceUser == null ? <a onClick={this.sendOrder.bind(this, text.serviceId)}>派单</a>:
+                    <a onClick={this.sendOrder.bind(this, text.serviceId)}>更新派单</a>;
                     return (
                         <React.Fragment>
-                            <a onClick={this.sendOrder.bind(this, text.serveId)}>派单</a>
+                            {a}
                             <Divider type="vertical" />
-                            <PopConfirm pop={this.state.pop} data={text.serveId}>
+                            <PopConfirm pop={this.state.pop} data={text.serviceId}>
                             </PopConfirm>
                         </React.Fragment>
                     )
@@ -140,18 +151,24 @@ export default class Order extends React.Component {
             box: {
                 name: "请选择员工",
                 visible: false,
-                handleOk: this.handleCancel,
+                handleOk: this.handleOk,
                 handleCancel: this.handleCancel,
             },
-            radio:{
-                value:1
+            // 派单数据
+            allotParam:{
+                ubdId:0,
+                serviceId:0,
             }
         }
     }
-    sendOrder = (serveId, event) => {
+    sendOrder = (serviceId, event) => {
         this.props.queryUserList();
         // 查询所有员工列表
         this.setState({
+            allotParam:{
+                ...this.state.radio,
+                serviceId:serviceId,
+            },
             box: {
                 ...this.state.box,
                 visible: true,
@@ -159,7 +176,8 @@ export default class Order extends React.Component {
         })
     };
     handleOk = () => {
-        // todo 派单
+        // 更新完成后，进行回调
+        this.props.allot(this.state.allotParam, () => this.props.queryServiceOrderList(this.state.page));
         this.setState({
             box: {
                 ...this.state.box,
@@ -195,8 +213,9 @@ export default class Order extends React.Component {
     }
     onRadio = (e) => {
         this.setState({
-            radio:{
-                value: e.target.value,
+            allotParam:{
+                ...this.state.allotParam,
+                ubdId:e.target.value,
             }
           });
     }
@@ -205,7 +224,6 @@ export default class Order extends React.Component {
         page["onChange"] = this.nextPage
         page["current"] = this.state.page.index;
         const radioStyle = {
-            
             height: '30px',
             lineHeight: '30px',
           };
@@ -215,8 +233,8 @@ export default class Order extends React.Component {
                     {iter.ubdPoliceName}
                 </Radio>
             )
-        })
-    let content = <Radio.Group onChange={this.onRadio} value={this.state.radio.value}>{employees}</Radio.Group>
+        }) 
+    let content = <Radio.Group onChange={this.onRadio} value={this.state.allotParam.ubdId}>{employees}</Radio.Group>
         return (
             <React.Fragment>
                 <CustomTable columns={this.columns} data={this.props.data} page={page}></CustomTable>

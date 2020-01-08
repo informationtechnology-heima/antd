@@ -18,6 +18,11 @@ const routes = [
         component: require('../auth/index.js').default,
       },
       {
+        path: '/bigdata',
+        exact: true,
+        component: require('../bigdata/index.js').default,
+      },
+      {
         path: '/employee',
         exact: true,
         component: require('../employee/index.js').default,

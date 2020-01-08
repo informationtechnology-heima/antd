@@ -29,18 +29,32 @@ export default {
             }else{
                 message.error("更新失败了")
             }
+        },
+        *allot({payLoad}, { call, put }){
+            let allotParam  = payLoad.allotParam;
+            if(allotParam.ubdId != 0 && allotParam.serviceId != 0){
+                const ret =  yield call(orderService.allot, {
+                    serviceId:allotParam.serviceId,
+                    userId:allotParam.ubdId,
+                });
+                if(ret.code == 200){
+                    message.success("派单完成了，请及时服务！")
+                    payLoad.callback();
+                }else{
+                    message.error("派单失败了")
+                }
+            }
+            
         }
     },
     reducers: {
         queryOrderList(state, { payLoad }) {
             let data = payLoad.data.map(iter => {
-
                 return {
                     ...iter,
-                    key: iter.serveId,
+                    key: iter.serviceId,
                 }
             });
-
             return ({
                 page: {
                     data: data,
