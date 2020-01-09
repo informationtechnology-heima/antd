@@ -3,21 +3,30 @@ export default {
     namespace: "employee",
     state: {
         employees: [],
+        count:0,
     },
     reducers: {
         updateEmployee(_, { data }) {
             let employees = data;
-            // for (let i = 0; i < data.length; i++) {
-            //     data[i]["key"] = data[i]["ubdId"];
-            //     employees.push(data[i])
-            // } 
             return ({
                 employees: employees,
+            })
+        },
+        queryEmployee: (_, { data }) => {
+            let ret = data.data.map((iter, index) => {
+                return {
+                    ...iter,
+                    key:index,
+                }
+            });
+            return ({
+                employees: ret,
+                count:data.count,
             })
         }
     },
     effects: {
-        *queryUserList({ palyLoad }, { call, put }) {
+        *queryUserList({ payload }, { call, put }) {
             const ret = yield call(employeeService.queryUserList, 2)
             if (ret.code == 200) {
                 yield put({
@@ -25,6 +34,18 @@ export default {
                     data: ret.data,
                 })
 
+            }
+        },
+        *queryEmployees({ payload }, { call, put }){
+            const ret = yield call(employeeService.queryEmployees, payload.page);
+            if(ret.code == 200){
+                yield put({
+                    type: "queryEmployee",
+                    data: {
+                        data:ret.data,
+                        count:ret.count,
+                    }
+                })
             }
         }
     }

@@ -124,8 +124,11 @@ export default class Order extends React.Component {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => {
-                    let a = text.serviceUser == null ? <a onClick={this.sendOrder.bind(this, text.serviceId)}>派单</a>:
-                    <a onClick={this.sendOrder.bind(this, text.serviceId)}>更新派单</a>;
+
+                    let a = <a onClick={this.sendOrder.bind(this, text.serviceId)}>{text.serviceUser == null ? "派单":"更新派单"}</a>
+                    if(record.serveStatus == 2000){
+                        a = "";
+                    };
                     return (
                         <React.Fragment>
                             {a}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Divider} from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import logo from '../../assets/logo.png'
 import Link from 'umi/link';
@@ -31,32 +31,42 @@ export default class Logged extends React.Component {
                             }
                         }></img>
                     </div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+                    
+                        <li style={
+                            {
+                                height:"40px",
+                                lineHeight:"40px",
+                                paddingLeft:"25px",
+                                fontSize: "14px",
+                            }
+                        }>
+                                <Icon type="user" /> 
+                                &nbsp;&nbsp;&nbsp;
+                            <span className="nav-text">{window.sessionStorage.getItem("username")}</span>
+                        </li>
+                        
                         <Menu.Item key="1">
-                            <Icon type="user" />
-                    <span className="nav-text">{window.sessionStorage.getItem("username")}</span>
-                        </Menu.Item>
-                        <Menu.Item key="2">
                             <Link to="/goods">
                                 <Icon type="profile" />
                                 <span className="nav-text">套餐管理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="3">
+                        <Menu.Item key="2">
                             <Link to="/order">
                                 <Icon type="shopping-cart" />
                                 <span className="nav-text">订单管理</span>
                             </Link>
 
                         </Menu.Item>
-                        <Menu.Item key="4">
+                        <Menu.Item key="3">
                             <Link to="/employee">
                                 <Icon type="team" />
                                 <span className="nav-text">员工管理</span>
                             </Link>
 
                         </Menu.Item>
-                        <Menu.Item key="5">
+                        <Menu.Item key="4">
                             <Link to="/bigdata">
                                 <Icon type="pie-chart"/>
                                 <span className="nav-text">数据大盘</span>
