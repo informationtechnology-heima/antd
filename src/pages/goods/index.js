@@ -324,8 +324,4 @@ export default class Goods extends React.Component {
             </div>
         )
     };
-    componentWillUpdate = (nextProps, nextState) => {
-
-    }
-
 }

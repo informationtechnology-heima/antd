@@ -5,9 +5,16 @@ import { Divider, Tag, Row, Col, Input, Switch } from 'antd'
 import DialogBox from '../../component/dialogbox'
 const namespace = "employee"
 @connect(state => {
+
+    let page={
+        showTotal: () => "共" + state[namespace].count + "条",
+        pageSize: 10,
+        total: state[namespace].count,
+    }
+
     return ({
         employees: state[namespace].employees,
-        count: state[namespace].count,
+        page: page,
     })
 
 }, disp => {
@@ -155,7 +162,19 @@ export default class Employee extends React.Component {
         })
 
     }
+    nextPage = (current) => {
+        let page = this.state.page;
+        page["index"] = current;
+        this.props.queryEmployees(this.state.page)
+        this.setState({
+            page: {
+                ...this.state.page,
+                index: current,
+            }
+        })
+    }
     render = () => {
+        
         let content = (
             <React.Fragment>
                 < Row gutter={[16, 16]} >
@@ -190,14 +209,18 @@ export default class Employee extends React.Component {
                 </Row >
             </React.Fragment>
         );
+        let page = this.props.page;
+        page["onChange"] = this.nextPage;
+        page["current"] = this.state.page.index; 
         return (
             <React.Fragment>
-                <CustomTable columns={this.columns} data={this.props.employees} />
+                <CustomTable columns={this.columns} data={this.props.employees} page={page}/>
                 <DialogBox box={this.state.box} content={content}></DialogBox>
             </React.Fragment>
         )
     }
 
+    
     componentDidMount = () => {
         this.props.queryEmployees(this.state.page)
     }
