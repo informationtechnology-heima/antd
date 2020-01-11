@@ -124,6 +124,7 @@ export default class Employee extends React.Component {
             },
             box: {
                 ...this.state.box,
+                name: "更新",
                 visible: true,
                 handleOk:this.updateUserOK
             }
@@ -157,6 +158,7 @@ export default class Employee extends React.Component {
             },
             box: {
                 ...this.state.box,
+                name: "新增",
                 visible: true,
                 handleOk:this.createUserOK,
             }
