@@ -1,7 +1,8 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider , Tag} from 'antd'
+import { Divider, Tag, Row, Col, Input, Switch } from 'antd'
+import DialogBox from '../../component/dialogbox'
 const namespace = "employee"
 @connect(state => {
     return ({
@@ -16,6 +17,15 @@ const namespace = "employee"
                 type: namespace + "/queryEmployees",
                 payload: {
                     page: page,
+                }
+            })
+        },
+        updateEmployee: (user, callback) => {
+            disp({
+                type: namespace + "/updateEmployee",
+                payload: {
+                    user: user,
+                    callback: callback,
                 }
             })
         }
@@ -43,7 +53,7 @@ export default class Employee extends React.Component {
                 render: (ubdUse) => {
                     let status = "";
                     if (ubdUse == 1) {
-                        
+
                         status = <Tag color={"green"} key={"在职"}>
                             在职
                     </Tag>;
@@ -61,9 +71,8 @@ export default class Employee extends React.Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <a>更新</a>
+                        <a onClick={this.updateUser.bind(this, text)}>更新</a>
                         <Divider type="vertical" />
-                        <a>删除</a>
                     </span>
                 ),
             },
@@ -72,12 +81,120 @@ export default class Employee extends React.Component {
             page: {
                 index: 1,
                 size: 10,
-            }
+            },
+            box: {
+                name: "更新",
+                visible: false,
+                handleOk: this.handleOK,
+                handleCancel: this.handleCancel,
+            },
+            user: {
+                ubdId: "",
+                ubdFixedPhone: "",
+                ubdPoliceName: "",
+                ubdUse: "",
+            },
         }
     }
+    updateUser = (user) => {
+        // 显示弹框
+        this.setState({
+            user: {
+                ubdId: user.ubdId,
+                ubdFixedPhone: user.ubdFixedPhone,
+                ubdPoliceName: user.ubdPoliceName,
+                ubdUse: user.ubdUse,
+            },
+            box: {
+                ...this.state.box,
+                visible: true,
+            }
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            box: {
+                ...this.state.box,
+                visible: false,
+            }
+        });
+    }
+    handleOK = () => {
+        this.props.updateEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
+        this.setState({
+            box: {
+                ...this.state.box,
+                visible: false,
+            }
+        });
+
+    }
+    isUser = (isUser) => {
+        if (isUser) {
+            this.setState({
+                user: {
+                    ...this.state.user,
+                    ubdUse: 1,
+                }
+            })
+        } else {
+            this.setState({
+                user: {
+                    ...this.state.user,
+                    ubdUse: 0,
+                }
+            })
+        }
+    }
+    onChange = (attr, e) => {
+        this.setState({
+            user: {
+                ...this.state.user,
+                [attr]: e.target.value,
+            }
+        })
+
+    }
     render = () => {
+        let content = (
+            <React.Fragment>
+                < Row gutter={[16, 16]} >
+                    <Col style={
+                        {
+                            lineHeight: "32px",
+                        }
+                    } span={8}>员工姓名</Col>
+                    <Col span={16} >
+                        <Input type="text" value={this.state.user.ubdPoliceName} onChange={this.onChange.bind(this, "ubdPoliceName")} />
+                    </Col>
+                </Row >
+                < Row gutter={[16, 16]} >
+                    <Col style={
+                        {
+                            lineHeight: "32px",
+                        }
+                    } span={8}>员工电话</Col>
+                    <Col span={16} >
+                        <Input type="text" value={this.state.user.ubdFixedPhone} onChange={this.onChange.bind(this, "ubdFixedPhone")} />
+                    </Col>
+                </Row >
+                < Row gutter={[16, 16]} >
+                    <Col style={
+                        {
+                            lineHeight: "32px",
+                        }
+                    } span={8}>是否在职</Col>
+                    <Col span={16} >
+                        <Switch checked={this.state.user.ubdUse == 1 ? true: false} onChange={this.isUser} />
+                    </Col>
+                </Row >
+            </React.Fragment>
+        );
         return (
-            <CustomTable columns={this.columns} data={this.props.employees} />
+            <React.Fragment>
+                <CustomTable columns={this.columns} data={this.props.employees} />
+                <DialogBox box={this.state.box} content={content}></DialogBox>
+            </React.Fragment>
         )
     }
 

@@ -47,6 +47,15 @@ export default {
                     }
                 })
             }
+        },
+        *updateEmployee({ payload }, { call}){
+            console.log("发起更新");
+            
+            const ret = yield call(employeeService.updateEmployee, payload.user);
+            if(ret.code == 200){
+                payload.callback();
+            }
         }
+
     }
 }

@@ -59,8 +59,8 @@ export default class Goods extends React.Component {
             box: {
                 name: "更新",
                 visible: false,
-                handleOk: () => { },
-                handleCancel: () => { },
+                handleOk: this.handleOk,
+                handleCancel: this.handleCancel,
             },
             goods: {},
             pop: {
@@ -180,10 +180,9 @@ export default class Goods extends React.Component {
         this.setState({
             ...this.state,
             box: {
+                ...this.state,
                 name: "更新",
                 visible: true,
-                handleOk: this.handleOk,
-                handleCancel: this.handleCancel,
             },
             goods: goods,
         });
@@ -243,7 +242,7 @@ export default class Goods extends React.Component {
         let goods = this.state.goods;
         const dateFormat = 'YYYY-MM-DD';
         let content = (
-            <div>
+            <React.Fragment>
                 < Row gutter={[16, 16]} >
                     <Col style={
                         {
@@ -313,7 +312,7 @@ export default class Goods extends React.Component {
                         <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
                     </Col>
                 </Row >
-            </div>
+            </React.Fragment>
         )
         let page = this.props.page;
         page["onChange"] = this.nextPage

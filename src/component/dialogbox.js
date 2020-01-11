@@ -27,5 +27,4 @@ export default class DialogBox extends React.Component {
             data:this.props.content
         })
     }
-
 }
