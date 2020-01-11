@@ -9,6 +9,9 @@ class EmployeeService{
     updateEmployee = (user) => {
         return HttpUtils.put("/user/update", user)
     }
+    createEmployee = (user) => {
+        return HttpUtils.post("/user/create", user)
+    }
 }
 const employeeService = new EmployeeService();
 export default employeeService;

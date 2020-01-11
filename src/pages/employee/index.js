@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Tag, Row, Col, Input, Switch } from 'antd'
+import { Divider, Tag, Row, Col, Input, Switch , Button} from 'antd'
 import DialogBox from '../../component/dialogbox'
 const namespace = "employee"
 @connect(state => {
@@ -30,6 +30,15 @@ const namespace = "employee"
         updateEmployee: (user, callback) => {
             disp({
                 type: namespace + "/updateEmployee",
+                payload: {
+                    user: user,
+                    callback: callback,
+                }
+            })
+        },
+        createEmployee: (user, callback) => {
+            disp({
+                type: namespace + "/createEmployee",
                 payload: {
                     user: user,
                     callback: callback,
@@ -82,7 +91,8 @@ export default class Employee extends React.Component {
                         <Divider type="vertical" />
                     </span>
                 ),
-            },
+            }
+            
         ];
         this.state = {
             page: {
@@ -92,7 +102,7 @@ export default class Employee extends React.Component {
             box: {
                 name: "更新",
                 visible: false,
-                handleOk: this.handleOK,
+                handleOk: () => {},
                 handleCancel: this.handleCancel,
             },
             user: {
@@ -115,6 +125,7 @@ export default class Employee extends React.Component {
             box: {
                 ...this.state.box,
                 visible: true,
+                handleOk:this.updateUserOK
             }
         });
     }
@@ -126,8 +137,8 @@ export default class Employee extends React.Component {
             }
         });
     }
-    handleOK = () => {
-        this.props.updateEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
+    updateUserOK = () => {
+        this.props.createEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
         this.setState({
             box: {
                 ...this.state.box,
@@ -135,6 +146,36 @@ export default class Employee extends React.Component {
             }
         });
 
+    }
+    createUser  = () =>{
+        // 新增员工
+        this.setState({
+            user:{
+                ubdFixedPhone: "",
+                ubdPoliceName: "",
+                ubdUse: 0,
+            },
+            box: {
+                ...this.state.box,
+                visible: true,
+                handleOk:this.createUserOK,
+            }
+        });
+    }
+    createUserOK  = () =>{
+        this.props.createEmployee(this.state.user, () => this.props.queryEmployees(this.state.page))
+        // 新增员工
+        this.setState({
+            user:{
+                ubdFixedPhone: "",
+                ubdPoliceName: "",
+                ubdUse: "",
+            },
+            box: {
+                ...this.state.box,
+                visible: false,
+            }
+        });
     }
     isUser = (isUser) => {
         if (isUser) {
@@ -214,6 +255,13 @@ export default class Employee extends React.Component {
         page["current"] = this.state.page.index; 
         return (
             <React.Fragment>
+                <Button style={{
+                    backgroundColor:"#f6ffed",
+                    position:"absolute",
+                    top:"75px",
+                    right:"30px",
+                    zIndex:1,
+                }} onClick={this.createUser}>新增员工</Button>
                 <CustomTable columns={this.columns} data={this.props.employees} page={page}/>
                 <DialogBox box={this.state.box} content={content}></DialogBox>
             </React.Fragment>

@@ -1,4 +1,5 @@
 import employeeService from '../service/employeeService'
+import {message} from 'antd'
 export default {
     namespace: "employee",
     state: {
@@ -49,10 +50,16 @@ export default {
             }
         },
         *updateEmployee({ payload }, { call}){
-            console.log("发起更新");
-            
             const ret = yield call(employeeService.updateEmployee, payload.user);
             if(ret.code == 200){
+                message.success("更新成功了");
+                payload.callback();
+            }
+        },
+        *createEmployee({ payload }, { call}){
+            const ret = yield call(employeeService.createEmployee, payload.user);
+            if(ret.code == 200){
+                message.success("新增成功了");
                 payload.callback();
             }
         }
