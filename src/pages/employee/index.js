@@ -139,7 +139,7 @@ export default class Employee extends React.Component {
         });
     }
     updateUserOK = () => {
-        this.props.createEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
+        this.props.updateEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
         this.setState({
             box: {
                 ...this.state.box,
