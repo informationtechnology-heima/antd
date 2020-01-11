@@ -170,7 +170,6 @@ export default class Goods extends React.Component {
         let goods = this.state.goods;
         goods[attr] = event.target.value;
         this.setState({
-            ...this.state,
             goods: goods,
         });
     }
@@ -178,10 +177,8 @@ export default class Goods extends React.Component {
         let json = JSON.stringify(text);
         let goods = JSON.parse(json);
         this.setState({
-            ...this.state,
             box: {
-                ...this.state,
-                name: "更新",
+                ...this.state.box,
                 visible: true,
             },
             goods: goods,
@@ -189,39 +186,24 @@ export default class Goods extends React.Component {
     };
     handleOk = () => {
         // 更新后端数据
+        console.log("更新了");
+        
         let ret = this.props.updateGoodsInfo(this.state.goods, this.props.queryGoodsInfoList, this.state.page);
         this.setState({
-            ...this.state,
             box: {
-                name: "更新",
+                ...this.state.box,
                 visible: false,
-                handleOk: () => { },
-                handleCancel: () => { },
             }
         });
 
     };
     handleCancel = () => {
         this.setState({
-            ...this.state,
             box: {
-                name: "编辑",
+                ...this.state.box,
                 visible: false,
-                handleOk: () => { },
-                handleCancel: () => { },
             }
         });
-    };
-    createGoods = () => {
-        this.setState({
-            ...this.state,
-            box: {
-                name: "新增",
-                visible: true,
-                handleOk: () => { },
-                handleCancel: () => { },
-            }
-        })
     };
 
     componentDidMount = () => {
@@ -274,7 +256,6 @@ export default class Goods extends React.Component {
                             let goods = this.state.goods;
                             goods["goodsExpreDate"] = dateString;
                             this.setState({
-                                ...this.state,
                                 goods: goods,
                             });
                         }
@@ -324,4 +305,8 @@ export default class Goods extends React.Component {
             </div>
         )
     };
+    // componentWillUpdate = (nextProps, nextState) => {
+    //     console.log(nextState);
+        
+    // }
 }
