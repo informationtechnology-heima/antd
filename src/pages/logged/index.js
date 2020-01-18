@@ -67,7 +67,7 @@ export default class Logged extends React.Component {
 
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <Link to="/bigdata">
+                            <Link to="/report">
                                 <Icon type="pie-chart"/>
                                 <span className="nav-text">数据大盘</span>
                             </Link>
