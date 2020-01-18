@@ -1,5 +1,5 @@
 import React from 'react'
-export default class BigData extends React.Component{
+export default class Report extends React.Component{
 
 
 

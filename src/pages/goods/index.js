@@ -212,7 +212,7 @@ export default class Goods extends React.Component {
     nextPage = (current) => {
         let page = this.state.page;
         page["index"] = current;
-        this.props.queryServiceOrderList(this.state.page)
+        this.props.queryGoodsInfoList(this.state.page)
         this.setState({
             page: {
                 ...this.state.page,
@@ -305,8 +305,4 @@ export default class Goods extends React.Component {
             </div>
         )
     };
-    // componentWillUpdate = (nextProps, nextState) => {
-    //     console.log(nextState);
-        
-    // }
 }
