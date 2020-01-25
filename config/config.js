@@ -22,6 +22,10 @@ export default {
     '/order': {
       target: 'http://localhost:8080',
       changeOrigin: true
+    },
+    '/report': {
+      target: 'http://localhost:8080',
+      changeOrigin: true
     }
   }
 };
