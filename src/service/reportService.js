@@ -1,7 +1,7 @@
 import HttpUtils from '../utils/httputils'
 class ReportService {
-    employeeServiceNumber = () => {
-        return HttpUtils.get("/report/employeeServiceNumber")
+    employeeServiceNumber = (time) => {
+        return HttpUtils.get("/report/monthEmployeeServiceNumber?startTime=" + time.startTime + "&endTime=" + time.endTime)
     }
 }
 const reportService = new ReportService()

@@ -10,7 +10,7 @@ export default {
     },
     effects: {
         *employeeServiceNumber({ payLoad }, { call, put }) {
-            const ret = yield call(reportService.employeeServiceNumber)
+            const ret = yield call(reportService.employeeServiceNumber, payLoad.time)
             if (ret.code == 200) {
                 yield put({
                     type: "updateReport",
