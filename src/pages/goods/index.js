@@ -107,6 +107,13 @@ export default class Goods extends React.Component {
                 title: '使用范围',
                 dataIndex: 'goodsAdvise',
                 key: 'goodsAdvise',
+                ellipsis: true,
+            },
+            {
+                title: '套餐说明',
+                dataIndex: 'goodsRemarks',
+                key: 'goodsRemarks',
+                ellipsis: true,
             },
             {
                 title: '套餐价格',
@@ -355,6 +362,16 @@ export default class Goods extends React.Component {
                     } span={8}>使用范围</Col>
                     <Col span={16} >
                         <Input type="text" value={updateGoods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
+                    </Col>
+                </Row >
+                < Row gutter={[16, 16]} >
+                    <Col style={
+                        {
+                            lineHeight: "32px",
+                        }
+                    } span={8}>套餐说明</Col>
+                    <Col span={16} >
+                        <Input type="text" value={updateGoods.goodsRemarks} onChange={this.handleChange.bind(this, "goodsRemarks")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >

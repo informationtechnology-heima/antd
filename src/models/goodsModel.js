@@ -31,11 +31,14 @@ export default {
         *queryGoodsInfoList({ payLoad }, { call, put }) {
             const result = yield call(goodsService.queryGoodsInfoList, payLoad.page);
             if (result && result.code == 200) {
+                message.success("刷新成功啦")
                 yield put({
                     type: "goodsInfoList",
                     data: result.data,
                     count: result.count,
                 })
+            }else{
+                message.error(result.message)
             }
         },
         *updateGoodsInfo({ payLoad }, { call, put }) {
@@ -43,15 +46,17 @@ export default {
             if (result && result.code == 200) {
                 message.success("套餐更新成功!")
                 payLoad.callback(payLoad.page);
+            }else{
+                message.error(result.message)
             }
         },
         *isDelGoodsInfo({ payLoad }, { call, put }) {
             const result = yield call(goodsService.isDelGoodsInfo, payLoad.data);
             if (result && result.code == 200) {
-                message.success("套餐更新成功!")
+                message.success("套餐修改成功!")
                 payLoad.callback();
             } else {
-                message.error("套餐更新失败啦!")
+                message.error(result.message)
             }
         },
         *createGoodsInfo({ payLoad }, { call, put }) {
@@ -60,7 +65,7 @@ export default {
                 message.success("套餐创建成功!")
                 payLoad.callback();
             } else {
-                message.error("套餐创建失败啦!")
+                message.error(result.message)
             }
         }
     }

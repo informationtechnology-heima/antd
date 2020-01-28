@@ -12,6 +12,7 @@ export default {
         *employeeServiceNumber({ payLoad }, { call, put }) {
             const ret = yield call(reportService.employeeServiceNumber, payLoad.time)
             if (ret.code == 200) {
+                message.success("刷新成功啦")
                 yield put({
                     type: "updateReport",
                     payLoad: ret.data,
@@ -19,7 +20,7 @@ export default {
                 payLoad.callback()
                 
             } else {
-                message.error("报表加载失败")
+                message.error(ret.message)
             }
         }
     },

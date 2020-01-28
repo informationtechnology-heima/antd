@@ -11,7 +11,6 @@ const namespace = "employee"
         pageSize: 10,
         total: state[namespace].count,
     }
-
     return ({
         employees: state[namespace].employees,
         page: page,
@@ -140,6 +139,7 @@ export default class Employee extends React.Component {
     updateUserOK = () => {
         this.props.updateEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
         this.setState({
+            user:{},
             box: {
                 ...this.state.box,
                 visible: false,

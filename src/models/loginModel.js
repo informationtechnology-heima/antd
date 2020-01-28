@@ -11,9 +11,9 @@ export default {
         *login({ payLoad }, { call, put }){  
             const ret = yield call(loginService.login, payLoad.loginData)
             if(ret.code != 200){
-                message.error("账号或密码不正确")
+                message.error(ret.message)
             }else{
-                message.success("登陆成功")
+                message.success("登陆成功啦")
                 window.sessionStorage.setItem("Authorization", ret.data.ubdToken);
                 window.sessionStorage.setItem("username", ret.data.ubdPoliceName);    
                 router.push('/goods');

@@ -7,7 +7,7 @@ export default {
         count:0,
     },
     reducers: {
-        updateEmployee(_, { data }) {
+        updateEmployees(_, { data }) {
             let employees = data;
             return ({
                 employees: employees,
@@ -30,16 +30,20 @@ export default {
         *queryUserList({ payload }, { call, put }) {
             const ret = yield call(employeeService.queryUserList, 2)
             if (ret.code == 200) {
+                message.success("刷新员工列表成功")
                 yield put({
-                    type: "updateEmployee",
+                    type: "updateEmployees",
                     data: ret.data,
                 })
 
+            }else{
+                message.error(ret.message)
             }
         },
         *queryEmployees({ payload }, { call, put }){
             const ret = yield call(employeeService.queryEmployees, payload.page);
             if(ret.code == 200){
+                message.success("刷新成功啦")
                 yield put({
                     type: "queryEmployee",
                     data: {
@@ -47,6 +51,8 @@ export default {
                         count:ret.count,
                     }
                 })
+            }else{
+                message.error(ret.message)
             }
         },
         *updateEmployee({ payload }, { call}){
@@ -54,6 +60,8 @@ export default {
             if(ret.code == 200){
                 message.success("更新成功了");
                 payload.callback();
+            }else{
+                message.error(ret.message);
             }
         },
         *createEmployee({ payload }, { call}){
@@ -61,6 +69,8 @@ export default {
             if(ret.code == 200){
                 message.success("新增成功了");
                 payload.callback();
+            }else{
+                message.error(ret.message)
             }
         }
 
