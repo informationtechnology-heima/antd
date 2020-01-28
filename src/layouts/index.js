@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css'
+
 import Logged from '../pages/logged'
 import Login from '../pages/login'
 export default class BaseLayout extends React.Component {
@@ -12,9 +13,9 @@ export default class BaseLayout extends React.Component {
             </Logged> :
             <Login></Login>;
         return (
-            <div>
+            <React.Fragment>
                 {content}
-            </div>
+            </React.Fragment>
         )
     }
 

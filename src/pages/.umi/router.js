@@ -13,11 +13,6 @@ const routes = [
     component: require('../../layouts/index.js').default,
     routes: [
       {
-        path: '/auth',
-        exact: true,
-        component: require('../auth/index.js').default,
-      },
-      {
         path: '/employee',
         exact: true,
         component: require('../employee/index.js').default,

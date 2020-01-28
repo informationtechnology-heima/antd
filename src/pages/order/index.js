@@ -2,7 +2,7 @@ import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva';
 import PopConfirm from '../../component/popconfirm'
-import { Tag, Divider, Radio} from 'antd';
+import { Tag, Divider, Radio, Card} from 'antd';
 import DialogBox from '../../component/dialogbox'
 const namespace = "serviceOrder";
 const employee = "employee";
@@ -239,10 +239,10 @@ export default class Order extends React.Component {
         }) 
     let content = <Radio.Group onChange={this.onRadio} value={this.state.allotParam.ubdId}>{employees}</Radio.Group>
         return (
-            <React.Fragment>
+            <Card title="服务单管理">
                 <CustomTable columns={this.columns} data={this.props.data} page={page}></CustomTable>
                 <DialogBox box={this.state.box} content={content}></DialogBox>
-            </React.Fragment>
+            </Card>
 
         )
     }

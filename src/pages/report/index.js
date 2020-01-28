@@ -64,40 +64,30 @@ export default class Report extends React.Component {
     render = () => {
 
         return (
-            <React.Fragment>
-                <div style={{
-                    paddingTop: "20px",
-                }}>
-                    <Row gutter={[16, 16]}>
-                        <Col span={6}>
-                        </Col>
-                        <Col span={6} >
-                            开始时间：<DatePicker defaultValue={moment(this.state.monthReport.startTime, Report.monthFormat)}
-                                onChange={this.changeTime.bind(this, "startTime")} />
-                        </Col>
-                        <Col span={6} >
-                            结束时间：<DatePicker defaultValue={moment(this.state.monthReport.endTime, Report.monthFormat)}
-                                onChange={this.changeTime.bind(this, "endTime")} />
-                        </Col>
-                        <Col span={6} >
-                            <Button type="primary" icon="area-chart" onClick={this.statistics}>开始统计</Button>
-                        </Col>
-                    </Row>
-                </div>
-                <div style={{
-                    padding: "20px",
+            <Card title="报表统计" extra={<Button type="primary" icon="area-chart" onClick={this.statistics}>开始统计</Button>}>
+                <Row gutter={[16, 16]}>
+                    <Col span={6}>
+                    </Col>
+                    <Col span={6} >
+                        开始时间：<DatePicker defaultValue={moment(this.state.monthReport.startTime, Report.monthFormat)}
+                            onChange={this.changeTime.bind(this, "startTime")} />
+                    </Col>
+                    <Col span={6} >
+                        结束时间：<DatePicker defaultValue={moment(this.state.monthReport.endTime, Report.monthFormat)}
+                            onChange={this.changeTime.bind(this, "endTime")} />
+                    </Col>
 
+                </Row>
+                <Card style={{
+                    width: "1200px",
+                    margin: "10px",
+                    display: "inline-block"
                 }}>
-                    <Card style={{
-                        width: "1200px",
-                        margin: "10px",
-                        display: "inline-block"
-                    }}>
-                        <div id="employeeServiceNumber">
-                        </div>
-                    </Card>
-                </div>
-            </React.Fragment>
+                    <div id="employeeServiceNumber">
+                    </div>
+                </Card>
+
+            </Card>
         )
     }
     report = () => {

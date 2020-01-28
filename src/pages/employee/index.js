@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Tag, Row, Col, Input, Switch , Button} from 'antd'
+import { Divider, Tag, Row, Col, Input, Switch , Button, Card} from 'antd'
 import DialogBox from '../../component/dialogbox'
 const namespace = "employee"
 @connect(state => {
@@ -88,7 +88,6 @@ export default class Employee extends React.Component {
                 render: (text, record) => (
                     <span>
                         <a onClick={this.updateUser.bind(this, text)}>更新</a>
-                        <Divider type="vertical" />
                     </span>
                 ),
             }
@@ -256,17 +255,11 @@ export default class Employee extends React.Component {
         page["onChange"] = this.nextPage;
         page["current"] = this.state.page.index; 
         return (
-            <React.Fragment>
-                <Button style={{
-                    backgroundColor:"#f6ffed",
-                    position:"absolute",
-                    top:"75px",
-                    right:"30px",
-                    zIndex:1,
-                }} onClick={this.createUser}>新增员工</Button>
+            <Card title="员工管理" extra={<Button type="primary" onClick={this.createUser}>新增员工</Button>}>
+                
                 <CustomTable columns={this.columns} data={this.props.employees} page={page}/>
                 <DialogBox box={this.state.box} content={content}></DialogBox>
-            </React.Fragment>
+            </Card>
         )
     }
 

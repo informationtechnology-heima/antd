@@ -1,7 +1,8 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Row, Col, Input, DatePicker } from 'antd';
+import { Divider, Row, Col, Input, DatePicker, Card, Button, Select } from 'antd';
+const { Option } = Select;
 import DialogBox from '../../component/dialogbox'
 import PopConfirm from '../../component/popconfirm'
 import moment from 'moment';
@@ -11,7 +12,7 @@ const namespace = "goods";
         showTotal: () => "共" + state[namespace].page.count + "条",
         pageSize: 10,
         total: state[namespace].page.count,
-    } 
+    }
     return (
         {
             data: state[namespace].page.data,
@@ -23,16 +24,16 @@ const namespace = "goods";
         queryGoodsInfoList: (page) => {
             disp({
                 type: namespace + "/queryGoodsInfoList",
-                payLoad:{
+                payLoad: {
                     page: page,
                 }
             })
         },
-        updateGoodsInfo: (goods, callback, page) => {
+        updateGoodsInfo: (updateGoods, callback, page) => {
             disp({
                 type: namespace + "/updateGoodsInfo",
                 payLoad: {
-                    goods: goods,
+                    goods: updateGoods,
                     callback: callback,
                     page: page,
                 }
@@ -62,7 +63,7 @@ export default class Goods extends React.Component {
                 handleOk: this.handleOk,
                 handleCancel: this.handleCancel,
             },
-            goods: {},
+            updateGoods: {},
             pop: {
                 message: "确认启用?",
                 operation: "是否启用",
@@ -72,14 +73,10 @@ export default class Goods extends React.Component {
             page: {
                 index: 1,
                 size: 10,
+                goodsType: ""
             }
         };
         this.columns = [
-            {
-                title: '主键',
-                dataIndex: 'goodsId',
-                key: 'goodsId',
-            },
             {
                 title: '套餐名称',
                 dataIndex: 'goodsName',
@@ -128,6 +125,10 @@ export default class Goods extends React.Component {
                 }
 
 
+            }, {
+                title: '商品类型',
+                dataIndex: 'goodsType',
+                key: 'goodsType',
             },
             {
                 title: '操作',
@@ -167,28 +168,23 @@ export default class Goods extends React.Component {
         this.props.isDelGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page)
     }
     handleChange = (attr, event) => {
-        let goods = this.state.goods;
-        goods[attr] = event.target.value;
+        let updateGoods = this.state.updateGoods;
+        updateGoods[attr] = event.target.value;
         this.setState({
-            goods: goods,
+            updateGoods: updateGoods,
         });
     }
     updata = (text) => {
-        let json = JSON.stringify(text);
-        let goods = JSON.parse(json);
         this.setState({
             box: {
                 ...this.state.box,
                 visible: true,
             },
-            goods: goods,
+            updateGoods: text
         });
     };
     handleOk = () => {
-        // 更新后端数据
-        console.log("更新了");
-        
-        let ret = this.props.updateGoodsInfo(this.state.goods, this.props.queryGoodsInfoList, this.state.page);
+        let ret = this.props.updateGoodsInfo(this.state.updateGoods, this.props.queryGoodsInfoList, this.state.page);
         this.setState({
             box: {
                 ...this.state.box,
@@ -220,8 +216,25 @@ export default class Goods extends React.Component {
             }
         })
     }
+    selectGoods = (value) => {
+        let { index, size } = this.state.page;
+        let page = { index: index, size: size, goodsType: value }
+        if (value === '全部') {
+            page['goodsType'] = ""
+        }
+        this.props.queryGoodsInfoList(page)
+    }
+    setUpdateGoods = (vaule) => {
+        this.setState({
+            updateGoods: {
+                ...this.state.updateGoods,
+                goodsType: vaule
+            }
+        })
+
+    }
     render = () => {
-        let goods = this.state.goods;
+        let updateGoods = this.state.updateGoods;
         const dateFormat = 'YYYY-MM-DD';
         let content = (
             <React.Fragment>
@@ -232,7 +245,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>套餐名称</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsName} disabled={true} />
+                        <Input type="text" value={updateGoods.goodsName} disabled={true} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
@@ -242,7 +255,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>次数</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
+                        <Input type="text" value={updateGoods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
@@ -253,13 +266,13 @@ export default class Goods extends React.Component {
                     } span={8}>有效期</Col>
                     <Col span={16} >
                         <DatePicker onChange={(date, dateString) => {
-                            let goods = this.state.goods;
-                            goods["goodsExpreDate"] = dateString;
+                            let updateGoods = this.state.updateGoods;
+                            updateGoods["goodsExpreDate"] = dateString;
                             this.setState({
-                                goods: goods,
+                                updateGoods: updateGoods,
                             });
                         }
-                        } defaultValue={moment(goods.goodsExpreDate)} format={dateFormat} />
+                        } defaultValue={moment(updateGoods.goodsExpreDate)} format={dateFormat} />
 
                     </Col>
                 </Row >
@@ -270,7 +283,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>使用范围</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
+                        <Input type="text" value={updateGoods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
@@ -280,7 +293,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>套餐价格</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
+                        <Input type="text" value={updateGoods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
@@ -290,7 +303,22 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>折后价</Col>
                     <Col span={16} >
-                        <Input type="text" value={goods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
+                        <Input type="text" value={updateGoods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
+                    </Col>
+                </Row >
+
+                < Row gutter={[16, 16]} >
+                    <Col style={
+                        {
+                            lineHeight: "32px",
+                        }
+                    } span={8}>商品类型</Col>
+                    <Col span={16} >
+                        <Select value={updateGoods.goodsType} style={{ width: 120 }} onChange={this.setUpdateGoods} >
+                            <Option value="高端保洁">高端保洁</Option>
+                            <Option value="家居养护">家居养护</Option>
+                            <Option value="家庭用品">家庭用品</Option>
+                        </Select>
                     </Col>
                 </Row >
             </React.Fragment>
@@ -299,10 +327,19 @@ export default class Goods extends React.Component {
         page["onChange"] = this.nextPage
         page["current"] = this.state.page.index;
         return (
-            <div>
+            <Card title={
+                <React.Fragment>
+                    <Select defaultValue="全部" style={{ width: 120 }} onChange={this.selectGoods}>
+                        <Option value="全部">全部</Option>
+                        <Option value="高端保洁">高端保洁</Option>
+                        <Option value="家居养护">家居养护</Option>
+                        <Option value="家庭用品">家庭用品</Option>
+                    </Select>
+                </React.Fragment>
+            } extra={<Button type="primary">新增套餐</Button>}>
                 <CustomTable columns={this.columns} data={this.props.data} page={page} />
                 <DialogBox box={this.state.box} content={content}></DialogBox>
-            </div>
+            </Card>
         )
     };
 }
