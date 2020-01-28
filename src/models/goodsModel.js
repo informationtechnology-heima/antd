@@ -49,9 +49,18 @@ export default {
             const result = yield call(goodsService.isDelGoodsInfo, payLoad.data);
             if (result && result.code == 200) {
                 message.success("套餐更新成功!")
-                payLoad.callback(payLoad.page);
+                payLoad.callback();
             } else {
-                message.info("套餐更新失败啦!")
+                message.error("套餐更新失败啦!")
+            }
+        },
+        *createGoodsInfo({ payLoad }, { call, put }) {
+            const result = yield call(goodsService.createGoodsInfo, payLoad.data);
+            if (result && result.code == 200) {
+                message.success("套餐创建成功!")
+                payLoad.callback();
+            } else {
+                message.error("套餐创建失败啦!")
             }
         }
     }

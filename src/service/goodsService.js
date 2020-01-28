@@ -10,6 +10,9 @@ class GoodsService {
     isDelGoodsInfo = (data) => {
         return httpUtils.delete("/goods/isDel" + "/" + data.goodsId + "/" + data.status)
     }
+    createGoodsInfo = (data) => {
+        return httpUtils.post("/goods/createGoodsInfo", data)
+    }
 }
 
 const goodsService = new GoodsService();

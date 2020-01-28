@@ -39,13 +39,21 @@ const namespace = "goods";
                 }
             })
         },
-        isDelGoodsInfo: (data, callback, page) => {
+        isDelGoodsInfo: (data, callback) => {
             disp({
                 type: namespace + "/isDelGoodsInfo",
                 payLoad: {
                     data: data,
-                    callback: callback,
-                    page: page,
+                    callback: callback
+                }
+            })
+        },
+        createGoods: (data, callback) => {
+            disp({
+                type: namespace + "/createGoodsInfo",
+                payLoad: {
+                    data: data,
+                    callback: callback
                 }
             })
         }
@@ -63,7 +71,6 @@ export default class Goods extends React.Component {
                 handleOk: this.handleOk,
                 handleCancel: this.handleCancel,
             },
-            updateGoods: {},
             pop: {
                 message: "确认启用?",
                 operation: "是否启用",
@@ -74,6 +81,10 @@ export default class Goods extends React.Component {
                 index: 1,
                 size: 10,
                 goodsType: ""
+            },
+            model: {
+                updateGoods: {},
+                isUpdate: true,
             }
         };
         this.columns = [
@@ -165,26 +176,36 @@ export default class Goods extends React.Component {
         ];
     };
     confirm = (data) => {
-        this.props.isDelGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page)
+        this.props.isDelGoodsInfo(data, () => this.props.queryGoodsInfoList(this.state.page))
     }
     handleChange = (attr, event) => {
-        let updateGoods = this.state.updateGoods;
+        let updateGoods = this.state.model.updateGoods;
         updateGoods[attr] = event.target.value;
         this.setState({
-            updateGoods: updateGoods,
+            model: {
+                ...this.state.model,
+                updateGoods: updateGoods,
+            }
         });
     }
     updata = (text) => {
+        let json = JSON.stringify(text)
+        let updateGoods = JSON.parse(json)
         this.setState({
             box: {
                 ...this.state.box,
+                name:"更新",
                 visible: true,
+                handleOk: this.handleOk
             },
-            updateGoods: text
+            model: {
+                isUpdate: true,
+                updateGoods: updateGoods,
+            }
         });
     };
     handleOk = () => {
-        let ret = this.props.updateGoodsInfo(this.state.updateGoods, this.props.queryGoodsInfoList, this.state.page);
+        let ret = this.props.updateGoodsInfo(this.state.model.updateGoods, this.props.queryGoodsInfoList, this.state.page);
         this.setState({
             box: {
                 ...this.state.box,
@@ -206,6 +227,8 @@ export default class Goods extends React.Component {
         this.props.queryGoodsInfoList(this.state.page);
     };
     nextPage = (current) => {
+        console.log(current);
+        
         let page = this.state.page;
         page["index"] = current;
         this.props.queryGoodsInfoList(this.state.page)
@@ -226,17 +249,65 @@ export default class Goods extends React.Component {
     }
     setUpdateGoods = (vaule) => {
         this.setState({
-            updateGoods: {
-                ...this.state.updateGoods,
-                goodsType: vaule
+            model: {
+                ...this.state.model,
+                updateGoods: {
+                    ...this.state.model.updateGoods,
+                    goodsType: vaule
+                }
             }
         })
 
     }
+    createGoods = () => {
+        this.props.createGoods(this.state.model.updateGoods,
+            () => this.props.queryGoodsInfoList(this.state.page));
+        this.setState({
+            box: {
+                ...this.state.box,
+                visible: false,
+                handleOk: () => { }
+            }
+        });
+    }
+    setCreateGoodsData = () => {
+        this.setState({
+            box: {
+                ...this.state.box,
+                name:"新增套餐",
+                visible: true,
+                handleOk: this.createGoods,
+            },
+            model: {
+                isUpdate: false,
+                updateGoods: {}
+            }
+        });
+    }
     render = () => {
-        let updateGoods = this.state.updateGoods;
+        let content = this.dataModel(this.state.model.updateGoods, this.state.model.isUpdate)
+        let page = this.props.page;
+        page["onChange"] = this.nextPage
+        page["current"] = this.state.page.index;
+        return (
+            <Card title={
+                <React.Fragment>
+                    <Select defaultValue="全部" style={{ width: 120 }} onChange={this.selectGoods}>
+                        <Option value="全部">全部</Option>
+                        <Option value="高端保洁">高端保洁</Option>
+                        <Option value="家居养护">家居养护</Option>
+                        <Option value="家庭用品">家庭用品</Option>
+                    </Select>
+                </React.Fragment>
+            } extra={<Button type="primary" onClick={this.setCreateGoodsData}>新增套餐</Button>}>
+                <CustomTable columns={this.columns} data={this.props.data} page={page} />
+                <DialogBox box={this.state.box} content={content}></DialogBox>
+            </Card>
+        )
+    };
+    dataModel = (updateGoods, isUpdate) => {
         const dateFormat = 'YYYY-MM-DD';
-        let content = (
+        return (
             <React.Fragment>
                 < Row gutter={[16, 16]} >
                     <Col style={
@@ -245,7 +316,7 @@ export default class Goods extends React.Component {
                         }
                     } span={8}>套餐名称</Col>
                     <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsName} disabled={true} />
+                        <Input type="text" value={updateGoods.goodsName} disabled={isUpdate} onChange={this.handleChange.bind(this, "goodsName")} />
                     </Col>
                 </Row >
                 < Row gutter={[16, 16]} >
@@ -266,13 +337,13 @@ export default class Goods extends React.Component {
                     } span={8}>有效期</Col>
                     <Col span={16} >
                         <DatePicker onChange={(date, dateString) => {
-                            let updateGoods = this.state.updateGoods;
+                            let updateGoods = this.state.model.updateGoods;
                             updateGoods["goodsExpreDate"] = dateString;
                             this.setState({
                                 updateGoods: updateGoods,
                             });
                         }
-                        } defaultValue={moment(updateGoods.goodsExpreDate)} format={dateFormat} />
+                        } value={moment(updateGoods.goodsExpreDate, dateFormat)} format={dateFormat}/>
 
                     </Col>
                 </Row >
@@ -323,23 +394,5 @@ export default class Goods extends React.Component {
                 </Row >
             </React.Fragment>
         )
-        let page = this.props.page;
-        page["onChange"] = this.nextPage
-        page["current"] = this.state.page.index;
-        return (
-            <Card title={
-                <React.Fragment>
-                    <Select defaultValue="全部" style={{ width: 120 }} onChange={this.selectGoods}>
-                        <Option value="全部">全部</Option>
-                        <Option value="高端保洁">高端保洁</Option>
-                        <Option value="家居养护">家居养护</Option>
-                        <Option value="家庭用品">家庭用品</Option>
-                    </Select>
-                </React.Fragment>
-            } extra={<Button type="primary">新增套餐</Button>}>
-                <CustomTable columns={this.columns} data={this.props.data} page={page} />
-                <DialogBox box={this.state.box} content={content}></DialogBox>
-            </Card>
-        )
-    };
+    }
 }
