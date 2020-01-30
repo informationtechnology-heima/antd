@@ -7,11 +7,14 @@ export default class BaseLayout extends React.Component {
 
     render = () => {
         // 判断是否登陆，切换页面
-        let content = window.sessionStorage.getItem("Authorization") ?
+        let isLogin = window.sessionStorage.getItem("Authorization") != "null"
+        let content = isLogin?
             <Logged>
                 {this.props.children}
             </Logged> :
             <Login></Login>;
+
+
         return (
             <React.Fragment>
                 {content}

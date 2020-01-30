@@ -1,17 +1,17 @@
 
 // 实时获取认证信息
-function getHeaders(){
+function getHeaders() {
     return (
         {
             "Content-Type": "application/json;charset=UTF-8",
-            "Authorization":window.sessionStorage.getItem("Authorization"),
+            "Authorization": window.sessionStorage.getItem("Authorization"),
         }
     )
 }
 
 class HttpUtils {
-    
-    get = (path) => { 
+
+    get = (path) => {
         return fetch(path, {
             method: "GET",
             headers: getHeaders(),
@@ -19,26 +19,47 @@ class HttpUtils {
             .then(resp => {
                 return resp.json();
             })
+            .then(data => {
+                if (data.code == 409) {
+                    window.sessionStorage.setItem("Authorization", null)
+                }
+                return data
+
+            })
     };
 
     post = (path, data) => {
         return fetch(path, {
             method: "POST",
             headers: getHeaders(),
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
         })
             .then(resp => {
                 return resp.json();
+            })
+            .then(data => {
+
+                if (data.code == 409) {
+                    window.sessionStorage.setItem("Authorization", null)
+                }
+                return data
+
             })
     };
     put = (path, data) => {
         return fetch(path, {
             method: "PUT",
             headers: getHeaders(),
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
         })
             .then(resp => {
                 return resp.json();
+            })
+            .then(data => {
+                if (data.code == 409) {
+                    window.sessionStorage.setItem("Authorization", null)
+                }
+                return data
             })
     };
     delete = (path) => {
@@ -48,6 +69,12 @@ class HttpUtils {
         })
             .then(resp => {
                 return resp.json();
+            })
+            .then(data => {
+                if (data.code == 409) {
+                    window.sessionStorage.setItem("Authorization", null)
+                }
+                return data
             })
     };
 }
