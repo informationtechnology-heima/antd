@@ -1,11 +1,12 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Row, Col, Input, DatePicker, Card, Button, Select } from 'antd';
+import { Divider, Row, Col, Input, DatePicker, Card, Button, Select, Form } from 'antd';
 const { Option } = Select;
 import DialogBox from '../../component/dialogbox'
 import PopConfirm from '../../component/popconfirm'
 import moment from 'moment';
+import GoodsForm from '../../component/goodsForm'
 const namespace = "goods";
 @connect((state) => {
     let page = {
@@ -124,25 +125,6 @@ export default class Goods extends React.Component {
                 title: '折后价',
                 dataIndex: 'goodsDiscountPrice',
                 key: 'goodsDiscountPrice',
-            },
-            {
-                title: '是否启用',
-                dataIndex: 'goodsIsDel',
-                key: 'goodsIsDel',
-                render: (goodsIsDel) => {
-                    let ret = (<span>
-                        未启用
-                    </span>);
-                    if (goodsIsDel == "1") {
-                        ret = (
-                            <span>
-                                已启用
-                        </span>);
-                    }
-                    return ret;
-                }
-
-
             }, {
                 title: '商品类型',
                 dataIndex: 'goodsType',
@@ -201,7 +183,7 @@ export default class Goods extends React.Component {
         this.setState({
             box: {
                 ...this.state.box,
-                name:"更新",
+                name: "更新",
                 visible: true,
                 handleOk: this.handleOk
             },
@@ -212,16 +194,27 @@ export default class Goods extends React.Component {
         });
     };
     handleOk = () => {
-        let ret = this.props.updateGoodsInfo(this.state.model.updateGoods, this.props.queryGoodsInfoList, this.state.page);
-        this.setState({
-            box: {
-                ...this.state.box,
-                visible: false,
-            }
-        });
+        let goodsform = this.refs.goodsForm
+        goodsform.validateFields()
+            .then((data) => {
+                data["goodsId"] = this.state.model.updateGoods.goodsId
+                let ret = this.props.updateGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page);
+                goodsform.resetFields()
+                this.setState({
+                    box: {
+                        ...this.state.box,
+                        visible: false,
+                    }
+                });
+            })
+            .catch((err) => {
+            })
+
 
     };
     handleCancel = () => {
+        let goodsForm = this.refs.goodsForm
+        goodsForm.resetFields()
         this.setState({
             box: {
                 ...this.state.box,
@@ -234,8 +227,6 @@ export default class Goods extends React.Component {
         this.props.queryGoodsInfoList(this.state.page);
     };
     nextPage = (current) => {
-        console.log(current);
-        
         let page = this.state.page;
         page["index"] = current;
         this.props.queryGoodsInfoList(this.state.page)
@@ -254,34 +245,28 @@ export default class Goods extends React.Component {
         }
         this.props.queryGoodsInfoList(page)
     }
-    setUpdateGoods = (vaule) => {
-        this.setState({
-            model: {
-                ...this.state.model,
-                updateGoods: {
-                    ...this.state.model.updateGoods,
-                    goodsType: vaule
-                }
-            }
-        })
-
-    }
     createGoods = () => {
-        this.props.createGoods(this.state.model.updateGoods,
-            () => this.props.queryGoodsInfoList(this.state.page));
-        this.setState({
-            box: {
-                ...this.state.box,
-                visible: false,
-                handleOk: () => { }
-            }
-        });
+        let goodsform = this.refs.goodsForm
+        goodsform.validateFields()
+            .then((data) => {
+                this.props.createGoods(data,
+                    () => this.props.queryGoodsInfoList(this.state.page));
+                goodsform.resetFields()
+                this.setState({
+                    box: {
+                        ...this.state.box,
+                        visible: false
+                    }
+                });
+            })
+            .catch((err) => {
+            })
     }
     setCreateGoodsData = () => {
         this.setState({
             box: {
                 ...this.state.box,
-                name:"新增套餐",
+                name: "新增套餐",
                 visible: true,
                 handleOk: this.createGoods,
             },
@@ -292,6 +277,7 @@ export default class Goods extends React.Component {
         });
     }
     render = () => {
+
         let content = this.dataModel(this.state.model.updateGoods, this.state.model.isUpdate)
         let page = this.props.page;
         page["onChange"] = this.nextPage
@@ -313,102 +299,9 @@ export default class Goods extends React.Component {
         )
     };
     dataModel = (updateGoods, isUpdate) => {
-        const dateFormat = 'YYYY-MM-DD';
         return (
             <React.Fragment>
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>套餐名称</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsName} disabled={isUpdate} onChange={this.handleChange.bind(this, "goodsName")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>次数</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsFreq} onChange={this.handleChange.bind(this, "goodsFreq")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>有效期</Col>
-                    <Col span={16} >
-                        <DatePicker onChange={(date, dateString) => {
-                            let updateGoods = this.state.model.updateGoods;
-                            updateGoods["goodsExpreDate"] = dateString;
-                            this.setState({
-                                updateGoods: updateGoods,
-                            });
-                        }
-                        } value={moment(updateGoods.goodsExpreDate, dateFormat)} format={dateFormat}/>
-
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>使用范围</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsAdvise} onChange={this.handleChange.bind(this, "goodsAdvise")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>套餐说明</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsRemarks} onChange={this.handleChange.bind(this, "goodsRemarks")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>套餐价格</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsPrice} onChange={this.handleChange.bind(this, "goodsPrice")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>折后价</Col>
-                    <Col span={16} >
-                        <Input type="text" value={updateGoods.goodsDiscountPrice} onChange={this.handleChange.bind(this, "goodsDiscountPrice")} />
-                    </Col>
-                </Row >
-
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>商品类型</Col>
-                    <Col span={16} >
-                        <Select value={updateGoods.goodsType} style={{ width: 120 }} onChange={this.setUpdateGoods} >
-                            <Option value="高端保洁">高端保洁</Option>
-                            <Option value="家居养护">家居养护</Option>
-                            <Option value="家庭用品">家庭用品</Option>
-                        </Select>
-                    </Col>
-                </Row >
+                <GoodsForm updateGoods={updateGoods} isUpdate={isUpdate} ref="goodsForm"></GoodsForm>
             </React.Fragment>
         )
     }
