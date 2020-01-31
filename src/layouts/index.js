@@ -1,8 +1,10 @@
 import React from 'react';
 import './index.css'
-
+import moment from 'moment';
 import Logged from '../pages/logged'
 import Login from '../pages/login'
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 export default class BaseLayout extends React.Component {
 
     render = () => {

@@ -25,6 +25,7 @@ class GoodsForm extends React.Component {
                 <Form.Item label="有效期">
                     {getFieldDecorator('goodsExpreDate', {
                         initialValue: updateGoods.goodsExpreDate == null ? null : moment(updateGoods.goodsExpreDate, dateFormat),
+                        valuePropName: "defaultValue",
                         rules: [{ required: true, message: '产品有效期不能为空' }],
                     })(<DatePicker format={dateFormat} />)}
                 </Form.Item>
