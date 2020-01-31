@@ -1,12 +1,13 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Tag, Row, Col, Input, Switch , Button, Card} from 'antd'
+import { Divider, Tag, Row, Col, Input, Switch, Button, Card } from 'antd'
 import DialogBox from '../../component/dialogbox'
+import EmployeeForm from '../../component/employeeForm'
 const namespace = "employee"
 @connect(state => {
 
-    let page={
+    let page = {
         showTotal: () => "共" + state[namespace].count + "条",
         pageSize: 10,
         total: state[namespace].count,
@@ -90,7 +91,7 @@ export default class Employee extends React.Component {
                     </span>
                 ),
             }
-            
+
         ];
         this.state = {
             page: {
@@ -100,7 +101,7 @@ export default class Employee extends React.Component {
             box: {
                 name: "更新",
                 visible: false,
-                handleOk: () => {},
+                handleOk: () => { },
                 handleCancel: this.handleCancel,
             },
             user: {
@@ -124,11 +125,12 @@ export default class Employee extends React.Component {
                 ...this.state.box,
                 name: "更新",
                 visible: true,
-                handleOk:this.updateUserOK
+                handleOk: this.updateUserOK
             }
         });
     }
     handleCancel = () => {
+        this.refs.employeeForm.resetFields()
         this.setState({
             box: {
                 ...this.state.box,
@@ -137,20 +139,32 @@ export default class Employee extends React.Component {
         });
     }
     updateUserOK = () => {
-        this.props.updateEmployee(this.state.user, () => { this.props.queryEmployees(this.state.page) })
-        this.setState({
-            user:{},
-            box: {
-                ...this.state.box,
-                visible: false,
-            }
-        });
-
+        let employeeForm = this.refs.employeeForm
+        employeeForm.validateFields()
+            .then((data) => {
+                if(data.ubdUse){
+                    data["ubdUse"] = 1
+                }else{
+                    data["ubdUse"] = 0
+                }
+                data["ubdId"] = this.state.user.ubdId
+                this.props.updateEmployee(data, () =>  this.props.queryEmployees(this.state.page) )
+                employeeForm.resetFields()
+                this.setState({
+                    user: {},
+                    box: {
+                        ...this.state.box,
+                        visible: false,
+                    }
+                });
+            })
+            .catch((err) => {
+            })
     }
-    createUser  = () =>{
+    createUser = () => {
         // 新增员工
         this.setState({
-            user:{
+            user: {
                 ubdFixedPhone: "",
                 ubdPoliceName: "",
                 ubdUse: 0,
@@ -159,24 +173,31 @@ export default class Employee extends React.Component {
                 ...this.state.box,
                 name: "新增",
                 visible: true,
-                handleOk:this.createUserOK,
+                handleOk: this.createUserOK,
             }
         });
     }
-    createUserOK  = () =>{
-        this.props.createEmployee(this.state.user, () => this.props.queryEmployees(this.state.page))
-        // 新增员工
-        this.setState({
-            user:{
-                ubdFixedPhone: "",
-                ubdPoliceName: "",
-                ubdUse: "",
-            },
-            box: {
-                ...this.state.box,
-                visible: false,
-            }
-        });
+    createUserOK = () => {
+        let employeeForm = this.refs.employeeForm
+        employeeForm.validateFields()
+            .then((data) => {
+                if(data.ubdUse){
+                    data["ubdUse"] = 1
+                }else{
+                    data["ubdUse"] = 0
+                }
+                this.props.createEmployee(data, () => this.props.queryEmployees(this.state.page))
+                employeeForm.resetFields()
+                this.setState({
+                    user: {},
+                    box: {
+                        ...this.state.box,
+                        visible: false,
+                    }
+                });
+            })
+            .catch((err) => {
+            })
     }
     isUser = (isUser) => {
         if (isUser) {
@@ -216,54 +237,23 @@ export default class Employee extends React.Component {
         })
     }
     render = () => {
-        
+
         let content = (
-            <React.Fragment>
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>员工姓名</Col>
-                    <Col span={16} >
-                        <Input type="text" value={this.state.user.ubdPoliceName} onChange={this.onChange.bind(this, "ubdPoliceName")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>员工电话</Col>
-                    <Col span={16} >
-                        <Input type="text" value={this.state.user.ubdFixedPhone} onChange={this.onChange.bind(this, "ubdFixedPhone")} />
-                    </Col>
-                </Row >
-                < Row gutter={[16, 16]} >
-                    <Col style={
-                        {
-                            lineHeight: "32px",
-                        }
-                    } span={8}>是否在职</Col>
-                    <Col span={16} >
-                        <Switch checked={this.state.user.ubdUse == 1 ? true: false} onChange={this.isUser} />
-                    </Col>
-                </Row >
-            </React.Fragment>
+            <EmployeeForm user={this.state.user} ref='employeeForm'></EmployeeForm>
         );
         let page = this.props.page;
         page["onChange"] = this.nextPage;
-        page["current"] = this.state.page.index; 
+        page["current"] = this.state.page.index;
         return (
             <Card title="员工管理" extra={<Button type="primary" onClick={this.createUser}>新增员工</Button>}>
-                
-                <CustomTable columns={this.columns} data={this.props.employees} page={page}/>
+
+                <CustomTable columns={this.columns} data={this.props.employees} page={page} />
                 <DialogBox box={this.state.box} content={content}></DialogBox>
             </Card>
         )
     }
 
-    
+
     componentDidMount = () => {
         this.props.queryEmployees(this.state.page)
     }

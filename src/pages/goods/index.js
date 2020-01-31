@@ -198,12 +198,15 @@ export default class Goods extends React.Component {
         goodsform.validateFields()
             .then((data) => {
                 data["goodsId"] = this.state.model.updateGoods.goodsId
-                let ret = this.props.updateGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page);
+                this.props.updateGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page);
                 goodsform.resetFields()
                 this.setState({
                     box: {
                         ...this.state.box,
                         visible: false,
+                    },
+                    model:{
+                        updateGoods:{}
                     }
                 });
             })

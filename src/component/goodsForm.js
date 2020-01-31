@@ -8,7 +8,6 @@ class GoodsForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         let updateGoods = this.props.updateGoods;
         let isUpdate = this.props.isUpdate;
-        console.log(updateGoods);
         return (
             <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
                 <Form.Item label="套餐名称">

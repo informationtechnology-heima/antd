@@ -1,3 +1,5 @@
+import router from 'umi/router';
+
 
 // 实时获取认证信息
 function getHeaders() {
@@ -21,7 +23,8 @@ class HttpUtils {
             })
             .then(data => {
                 if (data.code == 409) {
-                    window.sessionStorage.setItem("Authorization", null)
+                    window.sessionStorage.clear()
+                    router.push("/goods")
                 }
                 return data
 
@@ -40,7 +43,8 @@ class HttpUtils {
             .then(data => {
 
                 if (data.code == 409) {
-                    window.sessionStorage.setItem("Authorization", null)
+                    window.sessionStorage.clear()
+                    router.push("/goods")
                 }
                 return data
 
@@ -57,7 +61,8 @@ class HttpUtils {
             })
             .then(data => {
                 if (data.code == 409) {
-                    window.sessionStorage.setItem("Authorization", null)
+                    window.sessionStorage.clear()
+                    router.push("/goods")
                 }
                 return data
             })
@@ -72,7 +77,8 @@ class HttpUtils {
             })
             .then(data => {
                 if (data.code == 409) {
-                    window.sessionStorage.setItem("Authorization", null)
+                    window.sessionStorage.clear()
+                    router.push("/goods")
                 }
                 return data
             })
