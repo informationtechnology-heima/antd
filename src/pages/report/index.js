@@ -73,11 +73,11 @@ export default class Report extends React.Component {
                     </Col>
                     <Col span={6} >
                         开始时间：<DatePicker defaultValue={moment(this.state.monthReport.startTime, Report.monthFormat)}
-                            onChange={this.changeTime.bind(this, "startTime")} locale={locale}/>
+                            onChange={this.changeTime.bind(this, "startTime")} locale={locale} />
                     </Col>
                     <Col span={6} >
                         结束时间：<DatePicker defaultValue={moment(this.state.monthReport.endTime, Report.monthFormat)}
-                            onChange={this.changeTime.bind(this, "endTime")} locale={locale}/>
+                            onChange={this.changeTime.bind(this, "endTime")} locale={locale} />
                     </Col>
 
                 </Row>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.css';
-import { Input, Row, Col , message} from 'antd'
+import { Input, Row, Col , message, Spin} from 'antd'
 import {connect} from 'dva'
 const namespace = "login";
 @connect(state=> {
@@ -95,6 +95,7 @@ export default class Login extends React.Component {
                             登录
                         </button>
                     </div>
+                    
                 </div>
             </div>
         )

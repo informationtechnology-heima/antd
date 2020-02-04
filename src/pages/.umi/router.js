@@ -23,6 +23,11 @@ const routes = [
         component: require('../goods/index.js').default,
       },
       {
+        path: '/images',
+        exact: true,
+        component: require('../images/index.js').default,
+      },
+      {
         path: '/logged',
         exact: true,
         component: require('../logged/index.js').default,

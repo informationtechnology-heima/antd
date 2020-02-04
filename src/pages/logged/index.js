@@ -74,6 +74,13 @@ export default class Logged extends React.Component {
                             </Link>
 
                         </Menu.Item>
+                        <Menu.Item key="5">
+                            <Link to="/images">
+                                <Icon type="dropbox"/>
+                                <span className="nav-text">图片管理</span>
+                            </Link>
+
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>

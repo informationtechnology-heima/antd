@@ -26,6 +26,10 @@ export default {
     '/report': {
       target: 'http://localhost:8080',
       changeOrigin: true
+    },
+    '/images': {
+      target: 'http://localhost:8080',
+      changeOrigin: true
     }
   }
 };
