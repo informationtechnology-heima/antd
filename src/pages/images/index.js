@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Select, Button } from 'antd'
+import { Card, Row, Col, Select,Alert } from 'antd'
 import { connect } from 'dva'
 const namespace = "image"
 @connect(state => {
@@ -68,7 +68,7 @@ export default class Image extends React.Component {
                                 <Option value="家庭用品">家庭用品</Option>
                             </Select>
                         </React.Fragment>
-                    }>
+                    } extra={<Alert message="为了节省服务器资源，无用照片请及时删除" type="warning" showIcon />}>
                         {content}
                     </Card>
                 </div>

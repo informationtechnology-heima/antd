@@ -41,6 +41,9 @@ class GoodsForm extends React.Component {
                         rules: [{ required: true, message: '套餐说明不能为空' }],
                     })(<Input />)}
                 </Form.Item>
+                <Form.Item label="关联图片">
+                    <a>上传图片</a>
+                </Form.Item>
                 <Form.Item label="套餐价格">
                     {getFieldDecorator('goodsPrice', {
                         initialValue: updateGoods.goodsPrice,
