@@ -55,10 +55,14 @@ export default class Image extends React.Component {
                                     confirm: this.popConfirm
                                 }
                             } data={iter.fileId}></PopConfirm>}
-                            style={{ width: "200px" }}>
+                            style={{ width: "200px" }}
+                            style={{
+                                width:"200px",
+                            }}
+                            >
                             <img src={iter.filePath} style={{
                                 width: "100%",
-                                height: "100%"
+                                height: "250px"
                             }}></img>
                         </Card >
                     </Col >

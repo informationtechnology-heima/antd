@@ -40,7 +40,7 @@ export default class UploadImage extends React.Component {
         let fileList = this.refs.relation.state.fileList
         let filesUrl = fileList
             .filter(iterm => {
-                if (iterm.response.code == 200) {
+                if (iterm.response == null || iterm.response.code == 200) {
                     return true
                 }
             })
@@ -49,7 +49,7 @@ export default class UploadImage extends React.Component {
                     uid: index,
                     name: iterm.name,
                     status: iterm.status,
-                    url: iterm.response.data.filePath
+                    url: iterm.response == null ? iterm.url: iterm.response.data.filePath
                 })
             })
         let data = {

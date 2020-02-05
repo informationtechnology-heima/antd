@@ -59,7 +59,7 @@ export default class FileUpload extends React.Component {
         let files = fileList.map((image, iter) => {
             if (image.response != null && image.response.code != 200) {
                 image["status"] = "error"
-                message.error("非法文件")
+                message.error(image.response.message)
             }
             return image
         })
