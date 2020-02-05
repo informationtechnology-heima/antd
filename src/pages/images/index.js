@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Select,Alert } from 'antd'
+import { Card, Row, Col, Select, Alert, Pagination } from 'antd'
 import { connect } from 'dva'
 const namespace = "image"
 @connect(state => {
@@ -52,7 +52,7 @@ export default class Image extends React.Component {
             if (i != 0 && i % 6 == 0) {
                 content.push(<Row gutter={16} key={i} >{temContent}</Row>)
                 temContent = []
-            }else if(i == images.length){
+            } else if (i == images.length) {
                 content.push(<Row gutter={16} key={i} >{temContent}</Row>)
             }
         }
@@ -70,6 +70,11 @@ export default class Image extends React.Component {
                         </React.Fragment>
                     } extra={<Alert message="为了节省服务器资源，无用照片请及时删除" type="warning" showIcon />}>
                         {content}
+                        {/* 分页 */}
+                        <Pagination style={{
+                            paddingTop: "20px",
+                            textAlign: "right"
+                        }} defaultCurrent={1} total={this.props.count} onChange={this.nextPage} />
                     </Card>
                 </div>
             </React.Fragment>
@@ -85,6 +90,15 @@ export default class Image extends React.Component {
         this.setState({
             ...this.state.page,
             type: type
+        })
+    }
+    nextPage = (indexPage) => {
+        let page = this.state.page
+        page["index"] = indexPage
+        this.props.findByType(page)
+        this.setState({
+            ...this.state.page,
+            index: indexPage
         })
     }
 }
