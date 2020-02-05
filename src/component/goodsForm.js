@@ -7,14 +7,20 @@ class GoodsForm extends React.Component {
         const dateFormat = 'YYYY-MM-DD';
         const { getFieldDecorator } = this.props.form;
         let updateGoods = this.props.updateGoods;
-        let isUpdate = this.props.isUpdate;
+
         return (
             <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
                 <Form.Item label="套餐名称">
                     {getFieldDecorator('goodsName', {
                         initialValue: updateGoods.goodsName,
                         rules: [{ required: true, message: '套餐名称不能为空' }],
-                    })(<Input disabled={isUpdate} />)}
+                    })(<Input />)}
+                </Form.Item>
+                <Form.Item label="套餐标题">
+                    {getFieldDecorator('goodsTitle', {
+                        initialValue: updateGoods.goodsTitle,
+                        rules: [{ required: true, message: '套餐说明不能为空' }],
+                    })(<Input />)}
                 </Form.Item>
                 <Form.Item label="次数" >
                     {getFieldDecorator('goodsFreq', {
@@ -25,7 +31,6 @@ class GoodsForm extends React.Component {
                 <Form.Item label="有效期">
                     {getFieldDecorator('goodsExpreDate', {
                         initialValue: updateGoods.goodsExpreDate == null ? null : moment(updateGoods.goodsExpreDate, dateFormat),
-                        valuePropName: "defaultValue",
                         rules: [{ required: true, message: '产品有效期不能为空' }],
                     })(<DatePicker format={dateFormat} />)}
                 </Form.Item>
@@ -41,9 +46,7 @@ class GoodsForm extends React.Component {
                         rules: [{ required: true, message: '套餐说明不能为空' }],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="关联图片">
-                    <a>上传图片</a>
-                </Form.Item>
+
                 <Form.Item label="套餐价格">
                     {getFieldDecorator('goodsPrice', {
                         initialValue: updateGoods.goodsPrice,

@@ -18,6 +18,11 @@ const routes = [
         component: require('../employee/index.js').default,
       },
       {
+        path: '/goods/imagesUpload',
+        exact: true,
+        component: require('../goods/imagesUpload.js').default,
+      },
+      {
         path: '/goods',
         exact: true,
         component: require('../goods/index.js').default,

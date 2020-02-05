@@ -93,7 +93,7 @@ export default class Image extends React.Component {
                         <Pagination style={{
                             paddingTop: "20px",
                             textAlign: "right"
-                        }} defaultCurrent={1} total={this.props.count} onChange={this.nextPage} />
+                        }} defaultCurrent={1} total={this.props.count} onChange={this.nextPage} defaultPageSize={this.state.page.size}/>
                     </Card>
                 </div>
             </React.Fragment>

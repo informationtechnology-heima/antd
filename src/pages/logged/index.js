@@ -3,7 +3,6 @@ import { Layout, Menu, Icon} from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import logo from '../../assets/logo.png'
 import Link from 'umi/link';
-import Router  from 'umi/router'
 export default class Logged extends React.Component {
 
 

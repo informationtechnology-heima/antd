@@ -1,12 +1,12 @@
 import React from 'react'
 import CustomTable from '../../component/table'
 import { connect } from 'dva'
-import { Divider, Row, Col, Input, DatePicker, Card, Button, Select, Form } from 'antd';
+import { Divider, Card, Button, Select } from 'antd';
 const { Option } = Select;
 import DialogBox from '../../component/dialogbox'
 import PopConfirm from '../../component/popconfirm'
-import moment from 'moment';
 import GoodsForm from '../../component/goodsForm'
+import Link from 'umi/link'
 const namespace = "goods";
 @connect((state) => {
     let page = {
@@ -84,8 +84,7 @@ export default class Goods extends React.Component {
                 goodsType: ""
             },
             model: {
-                updateGoods: {},
-                isUpdate: true,
+                updateGoods: {}
             }
         };
         this.columns = [
@@ -93,6 +92,11 @@ export default class Goods extends React.Component {
                 title: '套餐名称',
                 dataIndex: 'goodsName',
                 key: 'goodsName',
+            },{
+                title: '商品标题',
+                dataIndex: 'goodsTitle',
+                key: 'goodsTitle',
+                ellipsis: true,
             },
             {
                 title: '次数',
@@ -109,8 +113,7 @@ export default class Goods extends React.Component {
                 dataIndex: 'goodsAdvise',
                 key: 'goodsAdvise',
                 ellipsis: true,
-            },
-            {
+            },{
                 title: '套餐说明',
                 dataIndex: 'goodsRemarks',
                 key: 'goodsRemarks',
@@ -126,9 +129,19 @@ export default class Goods extends React.Component {
                 dataIndex: 'goodsDiscountPrice',
                 key: 'goodsDiscountPrice',
             }, {
-                title: '商品类型',
-                dataIndex: 'goodsType',
-                key: 'goodsType',
+                title: '图片关联',
+                dataIndex: 'goodsCoverUrl',
+                key: 'goodsCoverUrl',
+                render: (url, goods) => {
+                    return (
+                        <Link to={{
+                            pathname:"/goods/imagesUpload",
+                            state:goods
+                        }}>
+                            <span>关联图片</span>
+                        </Link>
+                    )
+                }
             },
             {
                 title: '操作',
@@ -197,8 +210,6 @@ export default class Goods extends React.Component {
         let goodsform = this.refs.goodsForm
         goodsform.validateFields()
             .then((data) => {
-                console.log(data);
-                
                 data["goodsId"] = this.state.model.updateGoods.goodsId
                 this.props.updateGoodsInfo(data, this.props.queryGoodsInfoList, this.state.page);
                 goodsform.resetFields()
@@ -207,8 +218,8 @@ export default class Goods extends React.Component {
                         ...this.state.box,
                         visible: false,
                     },
-                    model:{
-                        updateGoods:{}
+                    model: {
+                        updateGoods: {}
                     }
                 });
             })
@@ -276,14 +287,13 @@ export default class Goods extends React.Component {
                 handleOk: this.createGoods,
             },
             model: {
-                isUpdate: false,
                 updateGoods: {}
             }
         });
     }
     render = () => {
 
-        let content = this.dataModel(this.state.model.updateGoods, this.state.model.isUpdate)
+        let content = this.dataModel(this.state.model.updateGoods)
         let page = this.props.page;
         page["onChange"] = this.nextPage
         page["current"] = this.state.page.index;
@@ -303,10 +313,10 @@ export default class Goods extends React.Component {
             </Card>
         )
     };
-    dataModel = (updateGoods, isUpdate) => {
+    dataModel = (updateGoods) => {
         return (
             <React.Fragment>
-                <GoodsForm updateGoods={updateGoods} isUpdate={isUpdate} ref="goodsForm"></GoodsForm>
+                <GoodsForm updateGoods={updateGoods} ref="goodsForm"></GoodsForm>
             </React.Fragment>
         )
     }

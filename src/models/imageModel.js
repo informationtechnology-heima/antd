@@ -1,5 +1,6 @@
 import imageService from '../service/imageService'
 import { message } from 'antd'
+import router from 'umi/router';
 export default {
     namespace: "image",
     state: {
@@ -29,6 +30,16 @@ export default {
             if (ret.code == 200) {
                 message.success("删除成功了")
                 payLoad.callback()
+            } else {
+                message.error(ret.message)
+            }
+        },
+
+        *relationImage({ payLoad }, { call, put }) {
+            const ret = yield call(imageService.relationImage, payLoad.data)
+            if (ret.code == 200) {
+                message.success("关联成功了")
+                router.push("/goods")
             } else {
                 message.error(ret.message)
             }
