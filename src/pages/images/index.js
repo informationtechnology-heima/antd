@@ -1,6 +1,8 @@
 import React from 'react'
 import { Card, Row, Col, Select, Alert, Pagination } from 'antd'
 import { connect } from 'dva'
+import PopConfirm from '../../component/popconfirm'
+const { Option } = Select;
 const namespace = "image"
 @connect(state => {
     return {
@@ -14,6 +16,15 @@ const namespace = "image"
                 type: namespace + "/findByType",
                 payLoad: {
                     page: page,
+                }
+            })
+        },
+        deleteById: (fileId, callback) => {
+            disp({
+                type: namespace + "/deleteById",
+                payLoad: {
+                    fileId: fileId,
+                    callback:callback,
                 }
             })
         }
@@ -36,13 +47,21 @@ export default class Image extends React.Component {
             .map((iter, index) => {
                 return (
                     <Col span={4} key={iter.fileId}>
-                        <Card size="small" title={iter.fileName} extra={<a href="#">删除</a>} style={{ width: "200px" }}>
+                        <Card size="small" title={iter.fileName}
+                            extra={<PopConfirm pop={
+                                {
+                                    message: "确认删除",
+                                    operation: "删除",
+                                    confirm: this.popConfirm
+                                }
+                            } data={iter.fileId}></PopConfirm>}
+                            style={{ width: "200px" }}>
                             <img src={iter.filePath} style={{
                                 width: "100%",
                                 height: "100%"
                             }}></img>
-                        </Card>
-                    </Col>
+                        </Card >
+                    </Col >
                 )
             });
         let content = [];
@@ -100,5 +119,8 @@ export default class Image extends React.Component {
             ...this.state.page,
             index: indexPage
         })
+    }
+    popConfirm = (fileId) => {
+        this.props.deleteById(fileId, () => this.props.findByType(this.state.page))
     }
 }

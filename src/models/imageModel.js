@@ -23,6 +23,15 @@ export default {
             } else {
                 message.error(ret.message)
             }
+        },
+        *deleteById({ payLoad }, { call, put }) {
+            const ret = yield call(imageService.deleteById, payLoad.fileId)
+            if (ret.code == 200) {
+                message.success("删除成功了")
+                payLoad.callback()
+            } else {
+                message.error(ret.message)
+            }
         }
     },
     reducers: {
