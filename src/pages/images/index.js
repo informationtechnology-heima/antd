@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Select, Alert, Pagination } from 'antd'
+import { Card, Row, Col, Select, Alert, Pagination, Modal } from 'antd'
 import { connect } from 'dva'
 import PopConfirm from '../../component/popconfirm'
 const { Option } = Select;
@@ -24,7 +24,7 @@ const namespace = "image"
                 type: namespace + "/deleteById",
                 payLoad: {
                     fileId: fileId,
-                    callback:callback,
+                    callback: callback,
                 }
             })
         }
@@ -39,6 +39,10 @@ export default class Image extends React.Component {
                 index: 1,
                 size: 12,
                 type: "",
+            },
+            modal:{
+                visible:false,
+                src:""
             }
         }
     }
@@ -57,13 +61,13 @@ export default class Image extends React.Component {
                             } data={iter.fileId}></PopConfirm>}
                             style={{ width: "200px" }}
                             style={{
-                                width:"200px",
+                                width: "200px",
                             }}
-                            >
+                        >
                             <img src={iter.filePath} style={{
                                 width: "100%",
                                 height: "250px"
-                            }}></img>
+                            }} onClick={this.showImage.bind(this, iter.filePath)}></img>
                         </Card >
                     </Col >
                 )
@@ -97,8 +101,11 @@ export default class Image extends React.Component {
                         <Pagination style={{
                             paddingTop: "20px",
                             textAlign: "right"
-                        }} defaultCurrent={1} total={this.props.count} onChange={this.nextPage} defaultPageSize={this.state.page.size}/>
+                        }} defaultCurrent={1} total={this.props.count} onChange={this.nextPage} defaultPageSize={this.state.page.size} />
                     </Card>
+                    <Modal visible={this.state.modal.visible} footer={null} onCancel={this.handleCancel}>
+                        <img alt="example" style={{ width: '100%' }} src={this.state.modal.src} />
+                    </Modal>
                 </div>
             </React.Fragment>
         )
@@ -126,5 +133,22 @@ export default class Image extends React.Component {
     }
     popConfirm = (fileId) => {
         this.props.deleteById(fileId, () => this.props.findByType(this.state.page))
+    }
+    showImage = (filePath) => {
+        this.setState({
+            modal:{
+                visible:true,
+                src:filePath,
+            }
+        })
+        
+    }
+    handleCancel = () => {
+        this.setState({
+            modal:{
+                visible:false,
+                src:"",
+            }
+        })
     }
 }
