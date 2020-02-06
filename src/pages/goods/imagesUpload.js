@@ -24,10 +24,10 @@ export default class UploadImage extends React.Component {
     render = () => {
         let goods = this.props.location.state
         let content = goods == null ?
-            (<Card title={"套餐名称：无"} extra={<Button type="primary">确认</Button>}>
+            (<Card title={"套餐名称：无"} >
                 <Alert message="请从套餐处关联图片进入" type="warning" showIcon />
             </Card>)
-            : (<Card title={"套餐名称：" + goods.goodsName} extra={<Button type="primary" onClick={this.relationImage}>关联</Button>}>
+            : (<Card title={"套餐名称：" + goods.goodsName} extra={<Button type="primary" onClick={this.relationImage}>保存</Button>}>
                 <ImageUpload type={goods.goodsType} images={goods.goodsCoverUrl} ref="relation"></ImageUpload>
             </Card>);
         return (

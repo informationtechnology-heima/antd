@@ -138,7 +138,7 @@ export default class Goods extends React.Component {
                             pathname:"/goods/imagesUpload",
                             state:goods
                         }}>
-                            <span>关联图片</span>
+                            <span>上传图片</span>
                         </Link>
                     )
                 }
