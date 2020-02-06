@@ -60,9 +60,7 @@ export default class Image extends React.Component {
                                 }
                             } data={iter.fileId}></PopConfirm>}
                             style={{ width: "200px" }}
-                            style={{
-                                width: "200px",
-                            }}
+                            hoverable={true}
                         >
                             <img src={iter.filePath} style={{
                                 width: "100%",
